@@ -1,0 +1,26 @@
+{
+  "name": "simplet-indicator-gmusic",
+  "version": "1.0.0",
+  "description": "Simple Google Music Indicator Applet",
+  "dependencies": {
+    "electron-positioner": "*",
+    "electron-settings": "*",
+    "menubar": "*",
+    "moment": "*",
+    "path": "*"
+  },
+  "devDependencies": {
+    "electron-packager": "^5.1.0",
+    "electron-prebuilt": "^0.36.0"
+  },
+  "main": "main.js",
+  "scripts": {
+    "build-linux-32": "electron-packager . simplet-indicator-weather --platform=linux --out=staging --arch=ia32 --version=0.36.0 --icon=Icon.icns --overwrite",
+    "build-linux-64": "electron-packager . simplet-indicator-weather --platform=linux --out=staging --arch=x64 --version=0.36.0 --icon=Icon.icns --overwrite",
+    "build-mac-32": "electron-packager . simplet-indicator-weather --platform=darwin --out=staging --arch=ia32 --version=0.36.0 --icon=Icon.icns --overwrite",
+    "build-mac-64": "electron-packager . simplet-indicator-weather --platform=darwin --out=staging --arch=x64 --version=0.36.0 --icon=Icon.icns --overwrite",
+    "build-windows-32": "electron-packager . simplet-indicator-weather --platform=win32 --out=staging --arch=ia32 --version=0.36.0 --icon=Icon.icns --overwrite",
+    "build-windows-64": "electron-packager . simplet-indicator-weather --platform=win32 --out=staging --arch=x64 --version=0.36.0 --icon=Icon.icns --overwrite",
+    "start": "electron ."
+  }
+}
