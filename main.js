@@ -10,7 +10,7 @@ var menubar = require('menubar');
 var path = require('path');
 var cachedBounds; // cachedBounds are needed for double-clicked event
 
-const DEBUG_ENABLED = true;
+const DEBUG_ENABLED = false;
 
 var opts = {
     dir: __dirname,
@@ -35,7 +35,7 @@ mb.on('ready', function ready() {
     contextMenu.append(new MenuItem({label: "Show", click: clicked}));
     //contextMenu.append(new MenuItem({label: "Settings", click: util.showSettings}));
     if (DEBUG_ENABLED) {
-        contextMenu.append(new MenuItem({label: "Debug", click: mb.window.toggleDevTools()}));
+        contextMenu.append(new MenuItem({label: "Debug", click: util.debug}));
     }
     contextMenu.append(new MenuItem({
         label: "Quit", click: function () {
@@ -46,8 +46,8 @@ mb.on('ready', function ready() {
 });
 
 mb.on('after-create-window', function() {
-    mb.window.setResizable(false);
-    console.log(mb.window.isResizable())
+    //mb.window.setResizable(false);
+    //console.log(mb.window.isResizable())
 });
 
 function clicked(e, bounds) {
@@ -57,23 +57,23 @@ function clicked(e, bounds) {
     mb.showWindow(cachedBounds);
 }
 
-//var util = {
-//    showSettings: function settings() {
-//        var options = {
-//            height: 600,
-//            width: 400,
-//            show: true,
-//            frame: true,
-//            center: true,
-//            darkTheme: true
-//        };
-//        var newWindow = new BrowserWindow(options);
-//        var positioner = new Positioner(newWindow);
-//        positioner.move('center');
-//        newWindow.loadURL('file://' + path.join(opts.dir, 'settings.html'))
-//    },
-//
-//    debug: function debug() {
-//        mb.window.toggleDevTools();
-//    }
-//};
+var util = {
+    //showSettings: function settings() {
+    //    var options = {
+    //        height: 600,
+    //        width: 400,
+    //        show: true,
+    //        frame: true,
+    //        center: true,
+    //        darkTheme: true
+    //    };
+    //    var newWindow = new BrowserWindow(options);
+    //    var positioner = new Positioner(newWindow);
+    //    positioner.move('center');
+    //    newWindow.loadURL('file://' + path.join(opts.dir, 'settings.html'))
+    //},
+
+    debug: function debug() {
+        mb.window.toggleDevTools();
+    }
+};
