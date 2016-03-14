@@ -2,4 +2,5 @@
 
 ## Simple Google Music Indicator Applet
 
-![Ubuntu Indicator](screenshots/ubuntu.png?raw=true "")
+![Ubuntu Indicator](extras/ubuntu-collapsed.png?raw=true "")
+![Ubuntu Indicator](extras/ubuntu-open.png?raw=true "")
