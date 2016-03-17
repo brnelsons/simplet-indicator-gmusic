@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="res/css/bootstrap.css" rel="stylesheet">
+    <link href="res/css/style.css" rel="stylesheet">
+    <script src="res/js/bootstrap.js"></script>
+    <script src="res/js/settings.js"></script>
+    <script>
+        window.$ = window.jQuery = require('./res/js/jquery.js');
+        const POS = 'position';
+        $(document).ready(function loadAll(){
+            $('input[type=radio][name="trayPosition"]').change(function(){
+                var tray = $('input[name=trayPosition]:checked', '#settingsForm').val();
+//                alert(tray);
+                if(tray == false){
+                    $('input[type=radio][name="positionVertical"]', '#settingsForm').first().prop('disabled', false);
+                }else{
+                    $('input[type=radio][name="positionVertical"]', '#settingsForm').first().prop('disabled', true);
+                }
+            })
+
+            var position = settingsUtil.load('position');
+            if(position == 'center'){
+                $('input[type=radio][name="trayPosition"][value=false]').first().attr('checked','checked');
+                $('input[type=radio][name="positionVertical"][value="center"]').first().attr('checked','checked');
+                $('input[type=radio][name="positionHorizontal"][value="Center"]').first().attr('checked','checked');
+            }else{
+                if(position.match("^tray")){
+                    $('input[type=radio][name="trayPosition"][value=true]').first().attr('checked','checked');
+                }else{
+                    $('input[type=radio][name="trayPosition"][value=false]').first().attr('checked','checked');
+                }
+                if(position.toLowerCase().match(/bottom/g)){
+                    $('input[type=radio][name="positionVertical"][value="Bottom"]').first().attr('checked','checked');
+                }else if(position.toLowerCase().match(/top/g)){
+                    $('input[type=radio][name="positionVertical"][value="Top"]').first().attr('checked','checked');
+                }else{
+                    $('input[type=radio][name="positionVertical"][value="center"]').first().attr('checked','checked');
+                }
+                if(position.toLowerCase().match(/left/g)){
+                    $('input[type=radio][name="positionHorizontal"][value="Left"]').first().attr('checked','checked');
+                }else if(position.toLowerCase().match(/right/g)){
+                    $('input[type=radio][name="positionHorizontal"][value="Right"]').first().attr('checked','checked');
+                }else{
+                    $('input[type=radio][name="positionHorizontal"][value="Center"]').first().attr('checked','checked');
+                }
+            }
+        })
+        function saveAll(){
+            var tray = $('input[name=trayPosition]:checked', '#settingsForm').val();
+            var vPosition = $('input[name=positionVertical]:checked', '#settingsForm').val();
+            var hPosition = $('input[name=positionHorizontal]:checked', '#settingsForm').val();
+            var position = '';
+            if(vPosition == 'center' && hPosition.toLowerCase() == 'center'){
+                position = 'center'
+            }else{
+                if(tray == 'true'){
+                    position += 'tray';
+                    position += hPosition;
+                }else{
+                    position += vPosition.toLowerCase();
+                    position += hPosition;
+                }
+            }
+            settingsUtil.save(POS, position);
+        }
+    </script>
+</head>
+<body>
+<div id="settingsForm" class="well" style="height:100%; margin:0;">
+
+    <div class="row">
+        <h3 class="settings-header">GMusic Indicator Settings</h3>
+    </div>
+
+    <div class="row setting">
+        <div class="input-group">
+            <span class="input-group-addon" id="trayPosition">Use Tray Fix(Windows):</span>
+            <span class="input-group-addon">
+                <input type="radio" name="trayPosition" value="true" aria-describedby="position">True</input>
+            </span>
+            <span class="input-group-addon">
+                <input type="radio" name="trayPosition" value="false" aria-describedby="position">False</input>
+            </span>
+        </div>
+    </div>
+    <div class="row setting">
+        <div class="input-group">
+            <span class="input-group-addon" id="positionVertical">V Position:</span>
+            <span class="input-group-addon">
+                <input type="radio" name="positionVertical" value="Top" aria-describedby="positionVertical">Top</input>
+            </span>
+            <span class="input-group-addon">
+                <input type="radio" name="positionVertical" value="center" aria-describedby="positionVertical">Center</input>
+            </span>
+            <span class="input-group-addon">
+                <input type="radio" name="positionVertical" value="Bottom" aria-describedby="positionVertical">Bottom</input>
+            </span>
+        </div>
+    </div>
+    <div class="row setting">
+        <div class="input-group">
+            <span class="input-group-addon" id="positionHorizontal">H Position:</span>
+            <span class="input-group-addon">
+                <input type="radio" name="positionHorizontal" value="Left" aria-describedby="positionHorizontal">Left</input>
+            </span>
+            <span class="input-group-addon">
+                <input type="radio" name="positionHorizontal" value="Center" aria-describedby="positionHorizontal">Center</input>
+            </span>
+            <span class="input-group-addon">
+                <input type="radio" name="positionHorizontal" value="Right" aria-describedby="positionHorizontal">Right</input>
+            </span>
+        </div>
+    </div>
+
+    <div class="row setting">
+        <div class="col-xs-6">
+            <input type="button" class="btn btn-success center-block" value="Save" onclick="saveAll()"/>
+        </div>
+        <div class="col-xs-6">
+            <input type="button" class="btn btn-warning center-block" value="Cancel"/>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
