@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 app/node_modules/electron-builder/node_modules/electron-winstaller-fixed/.idea/
 .idea
+app/userdata
 
 
 ### Node template
