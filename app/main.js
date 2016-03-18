@@ -25,7 +25,7 @@ var options = {
 
 var settings = new ElectronSettings(options);
 
-const DEBUG_ENABLED = true;
+const DEBUG_ENABLED = false;
 
 function getDefaultPosition() {
     var pos = (process.platform === 'win32') ? 'trayBottomRight' : 'topCenter';
