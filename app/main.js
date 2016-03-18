@@ -12,26 +12,40 @@ var menubar = require('menubar');
 var path = require('path');
 var ElectronSettings = require('electron-settings');
 var cachedBounds; // cachedBounds are needed for double-clicked event
+
+const ipcMain = require('electron').ipcMain;
+ipcMain.on('close-settings', function(event, arg) {
+    util.closeSettings();
+});
+
 var options = {
     'configDirPath': path.join(__dirname, 'userdata'),
     'configFileName': 'userSettings'
 };
+
 var settings = new ElectronSettings(options);
 
 const DEBUG_ENABLED = true;
 
 function getDefaultPosition() {
-    return (process.platform === 'win32') ? 'trayBottomRight' : 'topCenter';
+    var pos = (process.platform === 'win32') ? 'trayBottomRight' : 'topCenter';
+    settings.set('position', pos);
+    return pos;
+}
+function getDefaultTheme() {
+    settings.set('theme', 'dark');
+    return 'dark';
 }
 
-var windowPos = settings.get('position') === '' ? getDefaultPosition() : settings.get('position');
+var windowPos = settings.get('position') ||  getDefaultPosition();
+var theme = settings.get('theme') || getDefaultTheme();
 
 var opts = {
     dir: __dirname,
-    icon: path.join(__dirname, 'res/images', 'gmusic-light.png'),
+    icon: path.join(__dirname, 'res/images', 'gmusic-'+theme+'-indicator.png'),
     width: 975,
     height: 600,
-    tooltip: 'Show Weather',
+    tooltip: 'GMusic',
     transparent: "true",
     'preload-window': 'true',
     index: 'https://play.google.com/music/listen#/now',
@@ -59,15 +73,22 @@ mb.on('ready', function ready() {
     tray.setContextMenu(contextMenu);
 });
 
+function watchSettings() {
+    settings.watch('position', function (data) {
+        mb.positioner.move(data);
+        var position = mb.positioner.calculate(data, cachedBounds);
+        mb.window.setPosition(position.x, position.y)
+    });
+    settings.watch('theme', function (data) {
+        var image = path.join(__dirname, 'res/images', 'gmusic-' + data + '-indicator.png');
+        var tray = mb.tray;
+        tray.setImage(image);
+    });
+}
 mb.on('after-create-window', function() {
     //mb.window.setResizable(false);
     //console.log(mb.window.isResizable())
-    settings.watch('position', function(data){
-        mb.positioner.move(data);
-        var position = mb.positioner.calculate(data, cachedBounds);
-        m
-        mb.window.setPosition(position.x, position.y)
-    })
+    watchSettings();
 });
 
 function clicked(e, bounds) {
@@ -77,20 +98,35 @@ function clicked(e, bounds) {
     mb.showWindow(cachedBounds);
 }
 
+var settingsWindow;
+
 var util = {
     showSettings: function settings() {
-        var options = {
-            height: 600,
-            width: 400,
-            show: true,
-            frame: true,
-            center: true,
-            darkTheme: true
-        };
-        var newWindow = new BrowserWindow(options);
-        var positioner = new Positioner(newWindow);
-        positioner.move('center');
-        newWindow.loadURL('file://' + path.join(opts.dir, 'settings.html'))
+        if(settingsWindow==null) {
+            var options = {
+                height: 400,
+                width: 400,
+                //show: true,
+                frame: false,
+                //center: true,
+                //darkTheme: true,
+                transparent: true
+            };
+            settingsWindow = new BrowserWindow(options);
+            var positioner = new Positioner(settingsWindow);
+
+            if (DEBUG_ENABLED) {
+                settingsWindow.toggleDevTools();
+            }
+            positioner.move('center');
+            settingsWindow.loadURL('file://' + path.join(opts.dir, 'settings.html'))
+        }
+    },
+    closeSettings: function(){
+        if(settingsWindow != null){
+            settingsWindow.close();
+            settingsWindow = null;
+        }
     },
     debug: function debug() {
         mb.window.toggleDevTools();

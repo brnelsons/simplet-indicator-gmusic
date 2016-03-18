@@ -1,3 +1,24 @@
+body.transparent{
+    background: transparent !important;
+}
+
 .setting{
     margin-top: 10px;
+}
+
+.input-group-addon{
+    width: 100%;
+    background: #ef6c00 !important;
+    color: #fff !important;
+    font-weight: bolder !important;
+}
+
+button.active{
+    background: #0277BD !important;
+    color: #fff !important;
+    font-weight: bolder !important;
+}
+
+button{
+    outline: none !important;
 }

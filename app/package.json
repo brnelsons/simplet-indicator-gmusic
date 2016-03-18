@@ -26,6 +26,6 @@
     "build-mac-64": "electron-packager . GMusic --platform=darwin --out='../build' --arch=x64 --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"node_modules/(electron-packager|electron-prebuilt|electron-builder)\"",
     "build-windows-32": "electron-packager . GMusic --platform=win32 --out=\"../build\" --arch=ia32 --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"node_modules/(electron-packager|electron-prebuilt|electron-builder)\"",
     "build-windows-64": "electron-packager . GMusic --platform=win32 --out=\"../build\" --arch=x64 --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"node_modules/(electron-packager|electron-prebuilt|electron-builder)\"",
-    "start": "electron ."
+    "start": "electron . --enable-transparent-visuals --disable-gpu"
   }
 }
