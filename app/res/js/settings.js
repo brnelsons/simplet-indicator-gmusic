@@ -1,25 +1,9 @@
 /**
  * Created by Nelson on 3/16/2016.
  */
-const ElectronSettings = require('electron-settings');
+const settings = require('./res/modules/setting-module.js').settings();
 const ipcRenderer = require('electron').ipcRenderer;
 var path = require('path');
-
-var options = {
-    'configDirPath': path.join(__dirname, 'userdata'),
-    'configFileName': 'userSettings'
-};
-
-var settings = new ElectronSettings(options);
-
-var settingsUtil = {
-    save: function save(field, value) {
-        settings.set(field, value);
-    },
-    load: function load(field) {
-        return settings.get(field);
-    }
-};
 
 const POS = 'position';
 const THEME = 'theme';
@@ -69,7 +53,7 @@ $(document).ready(function loadAll() {
     });
 
     function loadPositionSettings() {
-        var position = settingsUtil.load(POS);
+        var position = settings.get(POS);
         if (position == 'center') {
             updateButtons('false', 'trayPosition');
             updateButtons('Center', 'positionVertical');
@@ -97,7 +81,7 @@ $(document).ready(function loadAll() {
     }
 
     function loadThemeSettings() {
-        var theme = settingsUtil.load(THEME);
+        var theme = settings.get(THEME);
         loadThemeSetting(theme)
     }
 
@@ -108,7 +92,7 @@ $(document).ready(function loadAll() {
 function closeSettingsWindow(){
     setTimeout(function(){
         ipcRenderer.send('close-settings');
-    }, 100);
+    }, 500);
 }
 
 function saveAll() {
@@ -117,7 +101,7 @@ function saveAll() {
     var hPosition = $('button[name=positionHorizontal].active', '#settingsForm').val();
     var theme = $('button[name=theme].active', '#settingsForm').val();
 
-    settingsUtil.save(THEME, theme);
+    settings.set(THEME, theme);
 
     var position = '';
     if (tray == 'false' && vPosition.toLowerCase() == 'center' && hPosition.toLowerCase() == 'center') {
@@ -131,6 +115,6 @@ function saveAll() {
             position += hPosition;
         }
     }
-    settingsUtil.save(POS, position);
+    settings.set(POS, position);
     closeSettingsWindow()
 }
