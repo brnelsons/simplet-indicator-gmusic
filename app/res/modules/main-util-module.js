@@ -9,7 +9,7 @@ const settings = require('./setting-module.js').settings();
 const path = require('path');
 var settingsWindow;
 
-const DEBUG_ENABLED = true;
+const DEBUG_ENABLED = false;
 
 module.exports = {
     showSettings: function settings() {

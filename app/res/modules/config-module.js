@@ -16,6 +16,7 @@ module.exports = {
         settings.set('position', pos);
         return pos;
     },
+    
     getMenubarConfig: function(){
         var isWindows = process.platform === 'win32';
         var theme = settings.get('theme') || this.getTheme();
