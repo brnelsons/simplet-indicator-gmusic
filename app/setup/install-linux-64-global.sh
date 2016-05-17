@@ -1,20 +1,18 @@
 #!/bin/bash
 
-DIR = "/opt/simplet-indicator-gmusic/"
-
 echo "Installing Simplet GMusic Indicator"
 echo "** this requires sudo to install **"
 
 echo "- Checking for previous install..."
-if [ -d "$DIR" ]; then
+if [ -d "/opt/simplet-indicator-gmusic/" ]; then
   echo "- Cleaning up previous install..."
-  sudo rm -R $DIR
+  sudo rm -R /opt/simplet-indicator-gmusic/
 fi
 
 echo "- Creating application directory..."
-sudo mkdir $DIR
+sudo mkdir /opt/simplet-indicator-gmusic/
 echo "- Moving files into application directory..."
-sudo cp -rf ../../../* $DIR
+sudo cp -rf ../../../* /opt/simplet-indicator-gmusic/
 
 # Create desktop desktop file
 echo "- Creating desktop entry..."
