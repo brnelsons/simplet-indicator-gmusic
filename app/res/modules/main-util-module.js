@@ -5,11 +5,8 @@ const electron = require('electron');
 const BrowserWindow = electron.BrowserWindow;
 const Positioner = require('electron-positioner');
 const globalShortcut = electron.globalShortcut;
-const settings = require('./setting-module.js').settings();
 const path = require('path');
 var settingsWindow;
-
-const DEBUG_ENABLED = false;
 
 module.exports = {
     showSettings: function settings() {
@@ -24,9 +21,6 @@ module.exports = {
             settingsWindow = new BrowserWindow(options);
             var positioner = new Positioner(settingsWindow);
 
-            if (DEBUG_ENABLED) {
-                settingsWindow.toggleDevTools();
-            }
             positioner.move('center');
             settingsWindow.loadURL('file://' + path.join(__dirname, '../../settings.html'))
         }

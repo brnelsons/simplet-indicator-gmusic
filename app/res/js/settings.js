@@ -1,12 +1,25 @@
 /**
  * Created by Nelson on 3/16/2016.
  */
-const settings = require('./res/modules/setting-module.js').settings();
+const settingsModule = require('./res/modules/setting-module.js');
 const ipcRenderer = require('electron').ipcRenderer;
 var path = require('path');
 
 const POS = 'position';
 const THEME = 'theme';
+const MUSIC_SERVICE = 'musicService';
+
+const serviceDictionary = {
+    'gmusic': 'https://play.google.com/music/listen#/now',
+    'pandora': 'https://www.pandora.com',
+    'spotify': 'https://www.spotify.com'
+};
+const serviceDictionaryLookup = {
+    'https://play.google.com/music/listen#/now': 'gmusic',
+     'https://www.pandora.com': 'pandora',
+     'https://www.spotify.com': 'spotify'
+};
+
 function loadThemeSetting(theme) {
     if (theme == 'light') {
         updateButtons('light', 'theme');
@@ -52,41 +65,54 @@ $(document).ready(function loadAll() {
         updateButtons($(this).val(), 'positionHorizontal');
     });
 
+    $('button[type=button][name="musicService"]').click(function () {
+        updateButtons($(this).val(), 'musicService');
+    });
+
     function loadPositionSettings() {
-        var position = settings.get(POS);
+        var position = settingsModule.getWindowPosition();
+        var POS_VERT = settingsModule.POSITION_VERTICAL;
+        var POS_HOR = settingsModule.POSITION_HORIZONTAL;
+
         if (position == 'center') {
             updateButtons('false', 'trayPosition');
-            updateButtons('Center', 'positionVertical');
-            updateButtons('Center', 'positionHorizontal');
+            updateButtons('Center', POS_VERT);
+
+            updateButtons('Center', POS_HOR);
         } else {
             var trayFixActive = position.match("^tray") != null;
             updateButtons(trayFixActive, 'trayPosition');
             checkHideVPosition(trayFixActive);
 
             if (position.toLowerCase().match(/bottom/g)) {
-                updateButtons('Bottom', 'positionVertical');
+                updateButtons('Bottom', POS_VERT);
             } else if (position.toLowerCase().match(/top/g)) {
-                updateButtons('Top', 'positionVertical');
+                updateButtons('Top', POS_VERT);
             } else {
-                updateButtons('Center', 'positionVertical');
+                updateButtons('Center', POS_VERT);
             }
             if (position.toLowerCase().match(/left/g)) {
-                updateButtons('Left', 'positionHorizontal');
+                updateButtons('Left', POS_HOR);
             } else if (position.toLowerCase().match(/right/g)) {
-                updateButtons('Right', 'positionHorizontal');
+                updateButtons('Right', POS_HOR);
             } else {
-                updateButtons('Center', 'positionHorizontal');
+                updateButtons('Center', POS_HOR);
             }
         }
     }
 
+    function loadMusicServiceSetting(){
+        var musicServiceUrl = settingsModule.getMusicService();
+        updateButtons(serviceDictionaryLookup[musicServiceUrl], settingsModule.MUSIC_SERVICE)
+    }
+
     function loadThemeSettings() {
-        var theme = settings.get(THEME);
-        loadThemeSetting(theme)
+        loadThemeSetting(settingsModule.getTheme());
     }
 
     loadPositionSettings();
     loadThemeSettings();
+    loadMusicServiceSetting();
 });
 
 function closeSettingsWindow(){
@@ -96,25 +122,40 @@ function closeSettingsWindow(){
 }
 
 function saveAll() {
-    var tray = $('button[name=trayPosition].active', '#settingsForm').val();
-    var vPosition = $('button[name=positionVertical].active', '#settingsForm').val();
-    var hPosition = $('button[name=positionHorizontal].active', '#settingsForm').val();
-    var theme = $('button[name=theme].active', '#settingsForm').val();
+    const SETTINGS_FORM = '#settingsForm';
 
-    settings.set(THEME, theme);
-
-    var position = '';
-    if (tray == 'false' && vPosition.toLowerCase() == 'center' && hPosition.toLowerCase() == 'center') {
-        position = 'center'
-    } else {
-        if (tray == 'true') {
-            position += 'tray';
-            position += hPosition;
-        } else {
-            position += vPosition.toLowerCase();
-            position += hPosition;
-        }
+    function saveTheme() {
+        var theme = $('button[name=theme].active', SETTINGS_FORM).val();
+        settings.set(THEME, theme);
     }
-    settings.set(POS, position);
+    saveTheme(SETTINGS_FORM);
+
+    function saveWindowPosition() {
+        var tray = $('button[name=trayPosition].active', SETTINGS_FORM).val();
+        var vPosition = $('button[name=positionVertical].active', SETTINGS_FORM).val();
+        var hPosition = $('button[name=positionHorizontal].active', SETTINGS_FORM).val();
+
+        var position = '';
+        if (tray == 'false' && vPosition.toLowerCase() == 'center' && hPosition.toLowerCase() == 'center') {
+            position = 'center'
+        } else {
+            if (tray == 'true') {
+                position += 'tray';
+                position += hPosition;
+            } else {
+                position += vPosition.toLowerCase();
+                position += hPosition;
+            }
+        }
+        settings.set(POS, position);
+    }
+    saveWindowPosition();
+
+    function saveMusicService(){
+        var musicService = $('button[name=musicService].active', SETTINGS_FORM).val();
+        settings.set(MUSIC_SERVICE, serviceDictionary[musicService]);
+    }
+    saveMusicService();
+
     closeSettingsWindow()
 }
