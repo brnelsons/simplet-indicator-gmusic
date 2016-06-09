@@ -8,12 +8,12 @@ var path = require('path');
 const serviceDictionary = {
     'gmusic': 'https://play.google.com/music/listen#/now',
     'pandora': 'https://www.pandora.com',
-    'spotify': 'https://www.spotify.com'
+    'spotify': 'https://play.spotify.com/browse'
 };
 const serviceDictionaryLookup = {
     'https://play.google.com/music/listen#/now': 'gmusic',
      'https://www.pandora.com': 'pandora',
-     'https://www.spotify.com': 'spotify'
+     'https://play.spotify.com/browse': 'spotify'
 };
 
 function loadThemeSetting(theme) {
