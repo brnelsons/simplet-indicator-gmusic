@@ -18,13 +18,23 @@ module.exports = {
             'configFileName': 'userSettings'
         });
     },
+    
     MUSIC_SERVICE: 'musicService',
     POSITION: 'position',
     POSITION_HORIZONTAL: 'positionHorizontal',
     POSITION_VERTICAL: 'positionVertical',
+    THEME: 'theme',
 
+    setMusicService: function(musicService){
+        electronSettings.set(this.MUSIC_SERVICE, musicService);
+    },
+    
     getMusicService: function(){
         return electronSettings.get(this.MUSIC_SERVICE) || this.getDefaultMusicService();
+    },
+    
+    setWindowPosition: function(position){
+        electronSettings.set(this.POSITION, position);
     },
     
     getWindowPosition: function(){
@@ -39,8 +49,12 @@ module.exports = {
         return electronSettings.get('windowWidth') || this.getDefaultWindowWidth();
     },
     
+    setTheme: function(newTheme){
+        electronSettings.set(this.THEME, newTheme);
+    },
+    
     getTheme: function(){
-        return electronSettings.get('theme') || this.getDefaultTheme();
+        return electronSettings.get(this.THEME) || this.getDefaultTheme();
     },
     
     getTrayIconConfiguration: function(){
@@ -64,12 +78,12 @@ module.exports = {
     
     getDefaultWindowPosition: function(){
         var pos = (process.platform === 'win32') ? 'trayBottomRight' : 'topCenter';
-        electronSettings.set('position', pos);
+        electronSettings.set(this.POSITION, pos);
         return pos;
     },
 
     getDefaultTheme: function(){
-        electronSettings.set('theme', 'dark');
+        electronSettings.set(this.THEME, 'dark');
         return 'dark';
     },
 

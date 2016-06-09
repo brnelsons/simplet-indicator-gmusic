@@ -5,10 +5,6 @@ const settingsModule = require('./res/modules/setting-module.js');
 const ipcRenderer = require('electron').ipcRenderer;
 var path = require('path');
 
-const POS = 'position';
-const THEME = 'theme';
-const MUSIC_SERVICE = 'musicService';
-
 const serviceDictionary = {
     'gmusic': 'https://play.google.com/music/listen#/now',
     'pandora': 'https://www.pandora.com',
@@ -124,18 +120,12 @@ function closeSettingsWindow(){
 function saveAll() {
     const SETTINGS_FORM = '#settingsForm';
 
-    function saveTheme() {
-        var theme = $('button[name=theme].active', SETTINGS_FORM).val();
-        settings.set(THEME, theme);
-    }
-    saveTheme(SETTINGS_FORM);
-
     function saveWindowPosition() {
         var tray = $('button[name=trayPosition].active', SETTINGS_FORM).val();
         var vPosition = $('button[name=positionVertical].active', SETTINGS_FORM).val();
         var hPosition = $('button[name=positionHorizontal].active', SETTINGS_FORM).val();
-
         var position = '';
+
         if (tray == 'false' && vPosition.toLowerCase() == 'center' && hPosition.toLowerCase() == 'center') {
             position = 'center'
         } else {
@@ -147,15 +137,13 @@ function saveAll() {
                 position += hPosition;
             }
         }
-        settings.set(POS, position);
+        settingsModule.setWindowPosition(position);
+        settingsModule.setTheme($('button[name=theme].active', SETTINGS_FORM).val());
     }
     saveWindowPosition();
 
-    function saveMusicService(){
-        var musicService = $('button[name=musicService].active', SETTINGS_FORM).val();
-        settings.set(MUSIC_SERVICE, serviceDictionary[musicService]);
-    }
-    saveMusicService();
+    var musicService = $('button[name=musicService].active', SETTINGS_FORM).val();
+    settingsModule.setMusicService(serviceDictionary[musicService]);
 
     closeSettingsWindow()
 }
