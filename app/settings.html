@@ -12,7 +12,33 @@
 </head>
 <body class="transparent">
 <div id="settingsForm" class="well" style="height:100%; margin:0;">
+
+    <div class="alert alert-warning">
+        <ul>
+            <li>Flash is NOT supported by GMusic(indicator).</li>
+            <li>Pandora and Spotify currently use Flash.</li>
+        </ul>
+    </div>
+
     <div class="row">
+        <h4 class="settings-header">Preferences:</h4>
+    </div>
+
+    <div class="row setting">
+        <div class="input-group">
+            <span class="input-group-addon" id="musicService">Music Service:</span>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" name="musicService" value="gmusic" aria-describedby="musicService">Google Music</button>
+                <button class="btn btn-default" type="button" name="musicService" value="pandora" aria-describedby="musicService">Pandora</button>
+                <button class="btn btn-default" type="button" name="musicService" value="spotify" aria-describedby="musicService">Spotify</button>
+                <!--<button class="btn btn-default" type="button" name="musicService" value="custom" aria-describedby="musicService">Custom</button>-->
+            </span>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row setting">
         <div class="input-group">
             <span class="input-group-addon" id="theme" style="width:100%;">Theme:</span>
             <span class="input-group-btn">
@@ -22,9 +48,7 @@
         </div>
     </div>
 
-    <div class="row">
-        <h3 class="settings-header">Position:</h3>
-    </div>
+    <hr>
 
     <div class="row setting">
         <div class="input-group">
@@ -56,16 +80,7 @@
         </div>
     </div>
 
-    <div class="row setting">
-        <div class="input-group">
-            <span class="input-group-addon" id="musicService">Music Service:</span>
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button" name="musicService" value="gmusic" aria-describedby="musicService">Google Music</button>
-                <button class="btn btn-default" type="button" name="musicService" value="pandora" aria-describedby="musicService">Pandora</button>
-                <button class="btn btn-default" type="button" name="musicService" value="spotify" aria-describedby="musicService">Spotify</button>
-            </span>
-        </div>
-    </div>
+    <br><br>
 
     <div class="row setting">
         <div class="col-xs-6">

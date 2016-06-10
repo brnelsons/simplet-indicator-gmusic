@@ -12,11 +12,12 @@ module.exports = {
     showSettings: function settings() {
         if (settingsWindow == null) {
             var options = {
-                height: 400,
-                width: 400,
+                height: 500,
+                width: 440,
                 frame: false,
                 darkTheme: true,
-                transparent: true
+                transparent: true,
+                resizable: false
             };
             settingsWindow = new BrowserWindow(options);
             var positioner = new Positioner(settingsWindow);

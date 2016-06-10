@@ -8,9 +8,9 @@ body.transparent{
 
 .input-group-addon{
     width: 100%;
-    background: #ef6c00 !important;
-    color: #fff !important;
+    color: #000 !important;
     font-weight: bolder !important;
+    text-align: left !important;
 }
 
 button.active{
