@@ -12,7 +12,7 @@ module.exports = {
     showSettings: function settings() {
         if (settingsWindow == null) {
             var options = {
-                height: 500,
+                height: process.platform === 'win32' ? 600 : 500,
                 width: 440,
                 frame: false,
                 darkTheme: true,

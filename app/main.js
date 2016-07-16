@@ -16,36 +16,29 @@ var cachedBounds; // cachedBounds are needed for double-clicked event
 
 var mb = menubar(configs.getMenubarConfig());
 
+function getContextMenu() {
+    var contextMenu = new Menu();
+    contextMenu.append(new MenuItem({label: "Show", click: clicked}));
+    contextMenu.append(new MenuItem({label: "Settings", click: util.showSettings}));
+    contextMenu.append(new MenuItem({
+        label: "Quit", click: function () {
+            app.quit();
+        }
+    }));
+    return contextMenu;
+}
 mb.on('ready', function ready() {
     console.log('app is ready');
 
     util.setupMediaKeyEvents(mb.window);
+    mb.window.on('resize', function(){
+        var wh = mb.window.getSize();
+        settings.setWindowWidth(wh[0]);
+        settings.setWindowHeight(wh[1]);
+    });
 
     var tray = mb.tray;
-    var contextMenu = new Menu();
-    contextMenu.append(new MenuItem({label: "Show", click: clicked}));
-    contextMenu.append(new MenuItem({label: "Settings", click: util.showSettings}));
-    contextMenu.append(new MenuItem({label: "Quit", click: function () {app.quit();}}));
-    tray.setContextMenu(contextMenu);
-});
-
-function watchSettings() {
-    const electronSettings = settings.settings();
-    electronSettings.watch('position', function (data) {
-        mb.positioner.move(data);
-        var position = mb.positioner.calculate(data, cachedBounds);
-        mb.window.setPosition(position.x, position.y);
-    });
-    electronSettings.watch('theme', function (data) {
-        var image = path.join(__dirname, 'res/images', 'gmusic-' + data + '-indicator.png');
-        var tray = mb.tray;
-        tray.setImage(image);
-    });
-}
-mb.on('after-create-window', function() {
-    //mb.window.setResizable(false);
-    //console.log(mb.window.isResizable())
-    watchSettings();
+    tray.setContextMenu(getContextMenu());
 });
 
 function clicked(e, bounds) {
@@ -57,4 +50,8 @@ function clicked(e, bounds) {
 
 ipcMain.on('close-settings', function() {
     util.closeSettings();
+    var image = path.join(__dirname, 'res/images', 'gmusic-' + settings.getTheme() + '-indicator.png');
+    var tray = mb.tray;
+    tray.setImage(image);
+    tray.setContextMenu(getContextMenu());
 });

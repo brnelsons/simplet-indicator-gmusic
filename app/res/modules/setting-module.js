@@ -23,6 +23,8 @@ module.exports = {
     POSITION: 'position',
     POSITION_HORIZONTAL: 'positionHorizontal',
     POSITION_VERTICAL: 'positionVertical',
+    WINDOW_WIDTH: 'windowWidth',
+    WINDOW_HEIGHT: 'windowHeight',
     THEME: 'theme',
 
     setMusicService: function(musicService){
@@ -42,11 +44,19 @@ module.exports = {
     },
     
     getWindowHeight: function(){
-        return electronSettings.get('windowHeight') || this.getDefaultWindowHeight(); 
+        return electronSettings.get(this.WINDOW_HEIGHT) || this.getDefaultWindowHeight();
     },
 
     getWindowWidth: function(){
-        return electronSettings.get('windowWidth') || this.getDefaultWindowWidth();
+        return electronSettings.get(this.WINDOW_WIDTH) || this.getDefaultWindowWidth();
+    },
+
+    setWindowHeight: function(height){
+        return electronSettings.set(this.WINDOW_HEIGHT, height);
+    },
+
+    setWindowWidth: function(width){
+        return electronSettings.set(this.WINDOW_WIDTH, width);
     },
     
     setTheme: function(newTheme){
