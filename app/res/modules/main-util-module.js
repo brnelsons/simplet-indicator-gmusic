@@ -14,7 +14,11 @@ function showWindow(e, bounds, mb) {
     if (e != null &&( e.altKey || e.shiftKey || e.ctrlKey || e.metaKey)) return mb.hideWindow();
     if (mb.window && mb.window.isVisible()) return mb.hideWindow();
     cachedBounds = bounds || cachedBounds;
-    return mb.showWindow(cachedBounds);
+    var bool = mb.showWindow(cachedBounds);
+    setTimeout(function(){
+        mb.window.focus();
+    }, 500);
+    return bool;
 }
 
 module.exports = {
