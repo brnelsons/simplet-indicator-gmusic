@@ -11,6 +11,11 @@ const electronSettings = new ElectronSettings({
 const DEFAULT_WINDOW_HEIGHT = 600;
 const DEFAULT_WINDOW_WIDTH = 975;
 
+function setAndReturn(FIELD, DEFAULT_VAL) {
+    electronSettings.set(FIELD, DEFAULT_VAL);
+    return DEFAULT_VAL;
+}
+
 module.exports = {
     settings: function loadSettings(){
         return new ElectronSettings({
@@ -25,48 +30,96 @@ module.exports = {
     POSITION_VERTICAL: 'positionVertical',
     WINDOW_WIDTH: 'windowWidth',
     WINDOW_HEIGHT: 'windowHeight',
+    DEFAULT_WINDOW_HEIGHT: '600',
+    DEFAULT_WINDOW_WIDTH: '975',
     THEME: 'theme',
+    MEDIA_PLAY_PAUSE: 'mediaPlayPauseKey',
+    MEDIA_NEXT: 'mediaNextKey',
+    MEDIA_PREVIOUS: 'mediaShowKey',
+    SHOW_HIDE_PLAYER: 'showHidePlayerKey',
+    ALWAYS_ON_TOP: 'alwaysOnTop',
+
+    getMusicService: function(){
+        return electronSettings.get(this.MUSIC_SERVICE) || this.getDefaultMusicService();
+    },
 
     setMusicService: function(musicService){
         electronSettings.set(this.MUSIC_SERVICE, musicService);
     },
-    
-    getMusicService: function(){
-        return electronSettings.get(this.MUSIC_SERVICE) || this.getDefaultMusicService();
-    },
-    
-    setWindowPosition: function(position){
-        electronSettings.set(this.POSITION, position);
-    },
-    
+
     getWindowPosition: function(){
         return electronSettings.get(this.POSITION) || this.getDefaultWindowPosition();
     },
-    
-    getWindowHeight: function(){
-        return electronSettings.get(this.WINDOW_HEIGHT) || this.getDefaultWindowHeight();
+
+    setWindowPosition: function(position){
+        electronSettings.set(this.POSITION, position);
     },
 
-    getWindowWidth: function(){
-        return electronSettings.get(this.WINDOW_WIDTH) || this.getDefaultWindowWidth();
+    getWindowHeight: function(){
+        return electronSettings.get(this.WINDOW_HEIGHT) || this.getDefaultWindowHeight();
     },
 
     setWindowHeight: function(height){
         return electronSettings.set(this.WINDOW_HEIGHT, height);
     },
 
+    getWindowWidth: function(){
+        return electronSettings.get(this.WINDOW_WIDTH) || this.getDefaultWindowWidth();
+    },
+
     setWindowWidth: function(width){
         return electronSettings.set(this.WINDOW_WIDTH, width);
     },
-    
-    setTheme: function(newTheme){
-        electronSettings.set(this.THEME, newTheme);
-    },
-    
+
     getTheme: function(){
         return electronSettings.get(this.THEME) || this.getDefaultTheme();
     },
-    
+
+    setTheme: function(newTheme){
+        electronSettings.set(this.THEME, newTheme);
+    },
+
+    getShowHideWindowKey: function(){
+        return electronSettings.get(this.SHOW_HIDE_PLAYER) || this.getDefaultShowHidePlayerKey();
+    },
+
+    setShowHideWindowKey: function(newKey){
+        electronSettings.set(this.SHOW_HIDE_PLAYER, newKey);
+    },
+
+    getMediaNextKey: function(){
+        return electronSettings.get(this.MEDIA_NEXT) || this.getDefaultMediaNextKey();
+    },
+
+    setMediaNextKey: function(newKey){
+        electronSettings.set(this.MEDIA_NEXT, newKey);
+    },
+
+    getMediaPreviousKey: function(){
+        return electronSettings.get(this.MEDIA_PREVIOUS) || this.getDefaultMediaPreviousKey();
+    },
+
+    setMediaPreviousKey: function(newKey){
+        electronSettings.set(this.MEDIA_PREVIOUS, newKey);
+    },
+
+    getMediaPlayPauseKey: function(){
+        return electronSettings.get(this.MEDIA_PLAY_PAUSE) || this.getDefaultMediaPlayPauseKey();
+    },
+
+    setMediaPlayPauseKey: function(newKey){
+        electronSettings.set(this.MEDIA_PLAY_PAUSE, newKey);
+    },
+
+    getAlwaysOnTop: function(){
+        return electronSettings.get(this.ALWAYS_ON_TOP) ||  this.getDefaultAlwaysOnTop();
+    },
+
+    setAlwaysOnTop: function(newKey){
+        electronSettings.set(this.ALWAYS_ON_TOP, newKey);
+    },
+
+    //predefined configs from settings
     getTrayIconConfiguration: function(){
         var isWindows = process.platform === 'win32';
         var theme = this.getTheme();
@@ -75,31 +128,44 @@ module.exports = {
         }
         return isWindows ? getTrayIcon('ico') : getTrayIcon('png');
     },
-    
+
+    getDefaultAlwaysOnTop: function(){
+        return setAndReturn(this.ALWAYS_ON_TOP, 'false');
+    },
+
     getDefaultWindowHeight: function(){
-        electronSettings.set('windowHeight', DEFAULT_WINDOW_HEIGHT);
-        return DEFAULT_WINDOW_HEIGHT;
+        return setAndReturn(this.WINDOW_HEIGHT, DEFAULT_WINDOW_HEIGHT);
     },
 
     getDefaultWindowWidth: function(){
-        electronSettings.set('windowWidth', DEFAULT_WINDOW_WIDTH);
-        return DEFAULT_WINDOW_WIDTH;
+        return setAndReturn(this.WINDOW_WIDTH, DEFAULT_WINDOW_WIDTH);
     },
     
     getDefaultWindowPosition: function(){
-        var pos = (process.platform === 'win32') ? 'trayBottomRight' : 'topCenter';
-        electronSettings.set(this.POSITION, pos);
-        return pos;
+        return setAndReturn(this.POSITION, (process.platform === 'win32') ? 'trayBottomRight' : 'topCenter');
     },
 
     getDefaultTheme: function(){
-        electronSettings.set(this.THEME, 'dark');
-        return 'dark';
+        return setAndReturn(this.THEME, 'dark');
+    },
+
+    getDefaultShowHidePlayerKey: function () {
+        return setAndReturn(this.SHOW_HIDE_PLAYER, 'ctrl+home');
     },
 
     getDefaultMusicService: function () {
-        const url = 'https://play.google.com/music/listen#/now';
-        electronSettings.set('musicService', url);
-        return url;
+        return setAndReturn(this.MUSIC_SERVICE, 'https://play.google.com/music/listen#/now');
+    },
+
+    getDefaultMediaPlayPauseKey: function(){
+        return setAndReturn(this.MEDIA_PLAY_PAUSE, 'MediaPlayPause');
+    },
+
+    getDefaultMediaNextKey: function(){
+        return setAndReturn(this.MEDIA_NEXT, 'MediaNextTrack');
+    },
+
+    getDefaultMediaPreviousKey: function(){
+        return setAndReturn(this.MEDIA_PREVIOUS, 'MediaPreviousTrack');
     }
 };

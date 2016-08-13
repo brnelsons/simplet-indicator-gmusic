@@ -6,13 +6,26 @@ const BrowserWindow = electron.BrowserWindow;
 const Positioner = require('electron-positioner');
 const globalShortcut = electron.globalShortcut;
 const path = require('path');
+const settingsModule = require('./setting-module.js');
 var settingsWindow;
+var cachedBounds;
+
+function showWindow(e, bounds, mb) {
+    if (e != null &&( e.altKey || e.shiftKey || e.ctrlKey || e.metaKey)) return mb.hideWindow();
+    if (mb.window && mb.window.isVisible()) return mb.hideWindow();
+    cachedBounds = bounds || cachedBounds;
+    var bool = mb.showWindow(cachedBounds);
+    setTimeout(function(){
+        mb.window.focus();
+    }, 500);
+    return bool;
+}
 
 module.exports = {
     showSettings: function settings() {
         if (settingsWindow == null) {
             var options = {
-                height: process.platform === 'win32' ? 600 : 500,
+                height: 600,
                 width: 440,
                 frame: false,
                 darkTheme: true,
@@ -34,19 +47,28 @@ module.exports = {
         }
     },
 
-    setupMediaKeyEvents: function setupMediaKeyEvents(window) {
+    showWindow: function(e, bounds, mb) {
+        showWindow(e, bounds, mb);
+    },
+
+    setupMediaKeyEvents: function setupMediaKeyEvents(mb) {
         //globalShortcut.register('ctrl+n', function(){//for testing
-        globalShortcut.register('MediaNextTrack', function () {
-            window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Right'});
+        globalShortcut.register(settingsModule.getMediaNextKey(), function () {
+            mb.window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Right'});
         });
         //globalShortcut.register('ctrl+p', function(){//for testing
-        globalShortcut.register('MediaPreviousTrack', function () {
-            window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Left'});
+        globalShortcut.register(settingsModule.getMediaPreviousKey(), function () {
+            mb.window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Left'});
         });
         //globalShortcut.register('ctrl+p', function(){//for testing
-        globalShortcut.register('MediaPlayPause', function () {
-            window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Space'});
+        globalShortcut.register(settingsModule.getMediaPlayPauseKey(), function () {
+            mb.window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Space'});
         });
+
+        //show window
+        globalShortcut.register(settingsModule.getShowHideWindowKey(), function() {
+            showWindow(null, cachedBounds, mb)
+        })
     }
 
 };

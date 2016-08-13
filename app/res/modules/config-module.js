@@ -17,8 +17,8 @@ module.exports = {
             transparent: "true",
             'preload-window': 'true',
             index: settingsModule.getMusicService(),
-            'window-position': settingsModule.getWindowPosition()
-            //'always-on-top': 'false'
+            'window-position': settingsModule.getWindowPosition(),
+            'always-on-top': settingsModule.getAlwaysOnTop() == 'true'
         }
     }
 };
