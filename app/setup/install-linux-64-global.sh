@@ -17,3 +17,5 @@ sudo cp -rf ../../../* /opt/simplet-indicator-gmusic/
 # Create desktop desktop file
 echo "- Creating desktop entry..."
 sudo cp -f simplet-indicator-gmusic.desktop /usr/share/applications/
+
+
