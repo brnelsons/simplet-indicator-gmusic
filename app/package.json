@@ -4,7 +4,7 @@
   "description": "Simple Google Music Indicator Applet",
   "dependencies": {
     "electron-positioner": "*",
-    "electron-settings": "*",
+    "electron-settings": "1.0.4",
     "menubar": "*",
     "moment": "*",
     "path": "*"
