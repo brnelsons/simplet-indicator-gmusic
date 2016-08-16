@@ -8,7 +8,7 @@ const Menu = electron.Menu;
 const MenuItem = electron.MenuItem;
 const util = require('./res/modules/main-util-module.js');
 const configs = require('./res/modules/config-module.js');
-const settings = require('./res/modules/setting-module.js');
+const settings = require('./res/modules/setting-util-module.js');
 
 var menubar = require('menubar');
 
@@ -21,7 +21,8 @@ mb.on('ready', function ready() {
 
     var tray = mb.tray;
     var contextMenu = new Menu();
-    contextMenu.append(new MenuItem({label: "Show", click: clicked}));
+    var showHideLabel = "Show" + (settings.getAlwaysOnTop() ? "/Hide" : "");
+    contextMenu.append(new MenuItem({label: showHideLabel, click: clicked}));
     contextMenu.append(new MenuItem({label: "Settings", click: util.showSettings}));
     contextMenu.append(new MenuItem({label: "Quit", click: function () {app.quit();}}));
     tray.setContextMenu(contextMenu);

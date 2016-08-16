@@ -2,7 +2,7 @@
  * Created by Nelson on 3/18/2016.
  */
 const electron = require('electron');
-const settingsModule = require('./setting-module.js');
+const settingsModule = require('./setting-util-module.js');
 var path = require('path');
 
 module.exports = {
@@ -15,10 +15,10 @@ module.exports = {
             width: settingsModule.getWindowWidth(),
             tooltip: 'GMusic',
             transparent: "true",
-            'preload-window': 'true',
+            'preload-window': "true",
             index: settingsModule.getMusicService(),
             'window-position': settingsModule.getWindowPosition(),
-            'always-on-top': settingsModule.getAlwaysOnTop() == 'true'
+            'always-on-top': settingsModule.getAlwaysOnTop()
         }
     }
 };

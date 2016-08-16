@@ -1,7 +1,7 @@
 /**
  * Created by Nelson on 3/16/2016.
  */
-const settingsModule = require('./res/modules/setting-module.js');
+const settingsModule = require('./res/modules/setting-util-module.js');
 const ipcRenderer = require('electron').ipcRenderer;
 var path = require('path');
 

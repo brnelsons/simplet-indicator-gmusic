@@ -6,7 +6,7 @@ const BrowserWindow = electron.BrowserWindow;
 const Positioner = require('electron-positioner');
 const globalShortcut = electron.globalShortcut;
 const path = require('path');
-const settingsModule = require('./setting-module.js');
+const settingsModule = require('./setting-util-module.js');
 var settingsWindow;
 var cachedBounds;
 
