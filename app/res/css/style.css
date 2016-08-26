@@ -6,6 +6,23 @@ body.transparent{
     margin-top: 10px;
 }
 
+.input-group-dropdown{
+    padding:0;
+}
+
+.input-group-addon select{
+    height: 28px;
+    width: 200px;
+    font-weight: normal;
+    background: white;
+    border: none;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-left: 1px solid #ccc;
+    outline-color: aquamarine;
+    outline-width: 2px;
+}
+
 .input-group-addon{
     width: 100%;
     color: #000 !important;

@@ -3,7 +3,7 @@
  */
 var ElectronSettings = require('electron-settings');
 var path = require('path');
-var preSettings = require('./settings-module');
+var preSettings = require('./settings-module').SETTINGS;
 var PLAYER_SETTINGS = preSettings.PLAYER_SETTINGS.VALUES;
 var WINDOW_SETTINGS = preSettings.WINDOW_SETTINGS.VALUES;
 var HOT_KEY_SETTINGS = preSettings.HOT_KEYS.VALUES;
@@ -13,7 +13,7 @@ const electronSettings = new ElectronSettings({
     'configFileName': 'userSettings'
 });
 
-function setAndGetSetting(hotKey){
+function getDefault(hotKey){
     electronSettings.set(hotKey.NAME, hotKey.DEFAULT_VAL);
     return hotKey.DEFAULT_VAL;
 }
@@ -26,85 +26,93 @@ module.exports = {
         });
     },
 
+    get: function get(setting) {
+        return electronSettings.get(setting.NAME) || getDefault(setting);
+    },
+
+    set: function set(setting, value){
+        this.set(setting, value)
+    },
+
     getMusicService: function(){
-        return electronSettings.get(PLAYER_SETTINGS.MUSIC_SERVICE.NAME) || this.getDefaultMusicService();
+        return this.get(PLAYER_SETTINGS.MUSIC_SERVICE);
     },
 
     setMusicService: function(musicService){
-        electronSettings.set(PLAYER_SETTINGS.MUSIC_SERVICE.NAME, musicService);
+        this.set(PLAYER_SETTINGS.MUSIC_SERVICE, musicService);
     },
 
     getWindowPosition: function(){
-        return electronSettings.get(WINDOW_SETTINGS.POSITION.NAME) || this.getDefaultWindowPosition();
+        return this.get(WINDOW_SETTINGS.POSITION);
     },
 
     setWindowPosition: function(position){
-        electronSettings.set(WINDOW_SETTINGS.POSITION.NAME, position);
+        this.set(WINDOW_SETTINGS.POSITION, position);
     },
 
     getWindowHeight: function(){
-        return electronSettings.get(WINDOW_SETTINGS.WINDOW_HEIGHT.NAME) || this.getDefaultWindowHeight();
+        return this.get(WINDOW_SETTINGS.WINDOW_HEIGHT);
     },
 
     setWindowHeight: function(height){
-        return electronSettings.set(WINDOW_SETTINGS.WINDOW_HEIGHT.NAME, height);
+        return this.set(WINDOW_SETTINGS.WINDOW_HEIGHT, height);
     },
 
     getWindowWidth: function(){
-        return electronSettings.get(WINDOW_SETTINGS.WINDOW_WIDTH.NAME) || this.getDefaultWindowWidth();
+        return this.get(WINDOW_SETTINGS.WINDOW_WIDTH);
     },
 
     setWindowWidth: function(width){
-        return electronSettings.set(WINDOW_SETTINGS.WINDOW_WIDTH.NAME, width);
+        return this.set(WINDOW_SETTINGS.WINDOW_WIDTH, width);
     },
 
     getTheme: function(){
-        return electronSettings.get(PLAYER_SETTINGS.THEME.NAME) || this.getDefaultTheme();
+        return this.get(PLAYER_SETTINGS.THEME);
     },
 
     setTheme: function(newTheme){
-        electronSettings.set(PLAYER_SETTINGS.THEME.NAME, newTheme);
+        this.set(PLAYER_SETTINGS.THEME, newTheme);
     },
 
     getShowHideWindowKey: function(){
-        return electronSettings.get(HOT_KEY_SETTINGS.SHOW_HIDE_PLAYER.NAME) || this.getDefaultShowHidePlayerKey();
+        return this.get(HOT_KEY_SETTINGS.SHOW_HIDE_PLAYER);
     },
 
     setShowHideWindowKey: function(newKey){
-        electronSettings.set(HOT_KEY_SETTINGS.SHOW_HIDE_PLAYER.NAME, newKey);
+        this.set(HOT_KEY_SETTINGS.SHOW_HIDE_PLAYER, newKey);
     },
 
     getMediaNextKey: function(){
-        return electronSettings.get(HOT_KEY_SETTINGS.MEDIA_NEXT.NAME) || this.getDefaultMediaNextKey();
+        return this.get(HOT_KEY_SETTINGS.MEDIA_NEXT);
     },
 
     setMediaNextKey: function(newKey){
-        electronSettings.set(HOT_KEY_SETTINGS.MEDIA_NEXT.NAME, newKey);
+        this.set(HOT_KEY_SETTINGS.MEDIA_NEXT, newKey);
     },
 
     getMediaPreviousKey: function(){
-        return electronSettings.get(HOT_KEY_SETTINGS.MEDIA_PREVIOUS.NAME) || this.getDefaultMediaPreviousKey();
+        return this.get(HOT_KEY_SETTINGS.MEDIA_PREVIOUS);
     },
 
     setMediaPreviousKey: function(newKey){
-        electronSettings.set(HOT_KEY_SETTINGS.MEDIA_PREVIOUS.NAME, newKey);
+        this.set(HOT_KEY_SETTINGS.MEDIA_PREVIOUS, newKey);
     },
 
     getMediaPlayPauseKey: function(){
-        return electronSettings.get(HOT_KEY_SETTINGS.MEDIA_PLAY_PAUSE.NAME) || this.getDefaultMediaPlayPauseKey();
+        return this.get(HOT_KEY_SETTINGS.MEDIA_PLAY_PAUSE);
     },
 
     setMediaPlayPauseKey: function(newKey){
-        electronSettings.set(HOT_KEY_SETTINGS.MEDIA_PLAY_PAUSE.NAME, newKey);
+        this.set(HOT_KEY_SETTINGS.MEDIA_PLAY_PAUSE, newKey);
     },
 
     getAlwaysOnTop: function(){
-        var alwaysOnTop = electronSettings.get(WINDOW_SETTINGS.ALWAYS_ON_TOP.NAME) ||  this.getDefaultAlwaysOnTop();
+        var alwaysOnTop = this.get(WINDOW_SETTINGS.ALWAYS_ON_TOP) ||  this.getDefault();
         return alwaysOnTop == "true";
     },
 
     setAlwaysOnTop: function(newKey){
-        electronSettings.set(WINDOW_SETTINGS.ALWAYS_ON_TOP, newKey);
+        this.set(WINDOW_SETTINGS.ALWAYS_ON_TOP, newKey);
     },
 
     //predefined configs from settings
@@ -118,42 +126,42 @@ module.exports = {
     },
 
     getDefaultAlwaysOnTop: function(){
-        return setAndGetSetting(WINDOW_SETTINGS.ALWAYS_ON_TOP);
+        return getDefault(WINDOW_SETTINGS.ALWAYS_ON_TOP);
     },
 
     getDefaultWindowHeight: function(){
-        return setAndGetSetting(WINDOW_SETTINGS.WINDOW_HEIGHT);
+        return getDefault(WINDOW_SETTINGS.WINDOW_HEIGHT);
     },
 
     getDefaultWindowWidth: function(){
-        return setAndGetSetting(WINDOW_SETTINGS.WINDOW_WIDTH);
+        return getDefault(WINDOW_SETTINGS.WINDOW_WIDTH);
     },
     
     getDefaultWindowPosition: function(){
-        return setAndGetSetting(WINDOW_SETTINGS.POSITION);
+        return getDefault(WINDOW_SETTINGS.POSITION);
     },
 
     getDefaultMusicService: function () {
-        return setAndGetSetting(PLAYER_SETTINGS.MUSIC_SERVICE);
+        return getDefault(PLAYER_SETTINGS.MUSIC_SERVICE);
     },
 
     getDefaultTheme: function(){
-        return setAndGetSetting(PLAYER_SETTINGS.THEME);
+        return getDefault(PLAYER_SETTINGS.THEME);
     },
 
     getDefaultShowHidePlayerKey: function () {
-        return setAndGetSetting(HOT_KEY_SETTINGS.SHOW_HIDE_PLAYER);
+        return getDefault(HOT_KEY_SETTINGS.SHOW_HIDE_PLAYER);
     },
 
     getDefaultMediaPlayPauseKey: function(){
-        return setAndGetSetting(HOT_KEY_SETTINGS.MEDIA_PLAY_PAUSE);
+        return getDefault(HOT_KEY_SETTINGS.MEDIA_PLAY_PAUSE);
     },
 
     getDefaultMediaNextKey: function(){
-        return setAndGetSetting(HOT_KEY_SETTINGS.MEDIA_PLAY_PAUSE);
+        return getDefault(HOT_KEY_SETTINGS.MEDIA_NEXT);
     },
 
     getDefaultMediaPreviousKey: function(){
-        return setAndGetSetting(HOT_KEY_SETTINGS.MEDIA_PLAY_PAUSE);
+        return getDefault(HOT_KEY_SETTINGS.MEDIA_PREVIOUS);
     }
 };

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<script>window.$ = window.jQuery = require('./res/js/jquery.js');</script>
+<script>var angular = require('angular');</script>
+<script>var settingsModule = require('./res/modules/settings-module')</script>
+<script src="res/js/bootstrap.js"></script>
+<link href="res/css/bootstrap.css" rel="stylesheet">
+<link href="res/css/style.css" rel="stylesheet">
+
+<body ng-app="myApp" ng-controller="myCtrl" style="background: #fff;">
+<div class="container">
+    <div class="alert alert-warning">
+        <script src="res/js/settings.js"></script>
+        <ul>
+            <li>Flash is NOT supported by GMusic(indicator).</li>
+            <li>Pandora and Spotify currently use Flash.</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="row setting">
+        <div class="col-xs-6">
+            <input type="button" class="btn btn-success center-block" value="Save" ng-click="save()"/>
+        </div>
+        <div class="col-xs-6">
+            <input type="button" class="btn btn-warning center-block" value="Cancel" ng-click="close()"/>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container" ng-repeat="settingGroup in allSettings" style="padding:0 25px 0;">
+        <div class="row">
+            <h4 class="settings-header">{{settingGroup.DISPLAY_NAME}}</h4>
+        </div>
+        <div class="row setting" ng-repeat="setting in settingGroup.VALUES">
+            <div class="input-group">
+                <span class="input-group-addon" id="{{setting.NAME}}">{{setting.DISPLAY_NAME}}</span>
+                <!--buttons-->
+                <span class="input-group-btn" ng-if="setting.TYPE == 'BUTTONS'">
+                    <button class="btn btn-default" type="button" name="{{option.NAME+'ValueB'}}" value="{{option.VALUE}}"
+                            aria-describedby="{{setting.NAME}}"
+                            ng-repeat="option in setting.OPTIONS">{{option.DISPLAY_NAME}}
+                    </button>
+                </span>
+                <!--TEXT-->
+                <input type="text" class="form-control" style="min-width:200px;" id="{{setting.NAME+'ValueT'}}"
+                       ng-if="setting.TYPE == 'TEXT'" aria-describedby="{{setting.NAME}}"
+                       placeholder="{{setting.DESC}}">
+                <!--NUMBERS-->
+                <input type="number" class="form-control" style="min-width:200px;" id="{{setting.NAME+'ValueN'}}"
+                       ng-if="setting.TYPE == 'NUMBER'" aria-describedby="{{setting.NAME}}"
+                       placeholder="{{setting.DESC}}">
+                <!--DROPDOWN-->
+                <div class="input-group-addon input-group-dropdown" ng-if="setting.TYPE == 'DROPDOWN'">
+                    <select id="{{setting.NAME+'ValueD'}}" title="{{setting.NAME}}" name="{{setting.NAME}}">
+                        <option ng-repeat="option in setting.OPTIONS" value="{{option.VALUE}}">{{option.DISPLAY_NAME}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>x``
+<script>
+    var app = angular.module("myApp", []);
+    app.controller("myCtrl", function ($scope) {
+        $scope.allSettings = settingsModule.SETTINGS;
+        $scope.change = function (setting, value) {
+
+        };
+        $scope.save = function () {
+            for(var setting in allSettings){
+
+            }
+        };
+        $scope.close = function(){
+            setTimeout(function(){
+                ipcRenderer.send('close-settings');
+            }, 500);
+        }
+    });
+</script>
+
+</body>
+</html>
+

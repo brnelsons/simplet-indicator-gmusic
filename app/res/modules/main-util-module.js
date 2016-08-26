@@ -11,11 +11,11 @@ var settingsWindow;
 var cachedBounds;
 
 function showWindow(e, bounds, mb) {
-    if (e != null &&( e.altKey || e.shiftKey || e.ctrlKey || e.metaKey)) return mb.hideWindow();
+    if (e != null && ( e.altKey || e.shiftKey || e.ctrlKey || e.metaKey)) return mb.hideWindow();
     if (mb.window && mb.window.isVisible()) return mb.hideWindow();
     cachedBounds = bounds || cachedBounds;
     var bool = mb.showWindow(cachedBounds);
-    setTimeout(function(){
+    setTimeout(function () {
         mb.window.focus();
     }, 500);
     return bool;
@@ -36,37 +36,42 @@ module.exports = {
             var positioner = new Positioner(settingsWindow);
 
             positioner.move('center');
-            settingsWindow.loadURL('file://' + path.join(__dirname, '../../settings.html'))
+            settingsWindow.loadURL('file://' + path.join(__dirname, '../../new_settings.html'))
+        }else if (settingsWindow.isVisible()){
+            settingsWindow.hide();
+        }else{
+            settingsWindow.show();
         }
     },
 
-    closeSettings: function () {
+    closeSettings: function closeSettings() {
         if (settingsWindow != null) {
             settingsWindow.close();
             settingsWindow = null;
         }
     },
 
-    showWindow: function(e, bounds, mb) {
+    showWindow: function (e, bounds, mb) {
         showWindow(e, bounds, mb);
     },
 
     setupMediaKeyEvents: function setupMediaKeyEvents(mb) {
-        //globalShortcut.register('ctrl+n', function(){//for testing
+        // old way mb.window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Right'});
+
         globalShortcut.register(settingsModule.getMediaNextKey(), function () {
-            mb.window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Right'});
+            mb.window.webContents.executeJavaScript('document.getElementById("player-bar-forward").click();');
         });
-        //globalShortcut.register('ctrl+p', function(){//for testing
+
         globalShortcut.register(settingsModule.getMediaPreviousKey(), function () {
-            mb.window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Left'});
+            mb.window.webContents.executeJavaScript('document.getElementById("player-bar-rewind").click();');
         });
-        //globalShortcut.register('ctrl+p', function(){//for testing
+
         globalShortcut.register(settingsModule.getMediaPlayPauseKey(), function () {
-            mb.window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Space'});
+            mb.window.webContents.executeJavaScript('document.getElementById("player-bar-play-pause").click();');
         });
 
         //show window
-        globalShortcut.register(settingsModule.getShowHideWindowKey(), function() {
+        globalShortcut.register(settingsModule.getShowHideWindowKey(), function () {
             showWindow(null, cachedBounds, mb)
         })
     }

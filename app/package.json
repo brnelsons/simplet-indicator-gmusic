@@ -11,6 +11,7 @@
     "path": "*"
   },
   "devDependencies": {
+    "angular": "^1.5.8",
     "electron-packager": "^5.1.0",
     "electron-prebuilt": "^0.36.0"
   },

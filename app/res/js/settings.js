@@ -1,7 +1,7 @@
 /**
  * Created by Nelson on 3/16/2016.
  */
-const settingsModule = require('./res/modules/setting-util-module.js');
+const settingsUtil = require('./res/modules/setting-util-module.js');
 const ipcRenderer = require('electron').ipcRenderer;
 var path = require('path');
 
@@ -66,9 +66,9 @@ $(document).ready(function loadAll() {
     });
 
     function loadPositionSettings() {
-        var position = settingsModule.getWindowPosition();
-        var POS_VERT = settingsModule.POSITION_VERTICAL;
-        var POS_HOR = settingsModule.POSITION_HORIZONTAL;
+        var position = settingsUtil.getWindowPosition();
+        var POS_VERT = settingsUtil.POSITION_VERTICAL;
+        var POS_HOR = settingsUtil.POSITION_HORIZONTAL;
 
         if (position == 'center') {
             updateButtons('false', 'trayPosition');
@@ -98,12 +98,12 @@ $(document).ready(function loadAll() {
     }
 
     function loadMusicServiceSetting(){
-        var musicServiceUrl = settingsModule.getMusicService();
-        updateButtons(serviceDictionaryLookup[musicServiceUrl], settingsModule.MUSIC_SERVICE)
+        var musicServiceUrl = settingsUtil.getMusicService();
+        updateButtons(serviceDictionaryLookup[musicServiceUrl], settingsUtil.MUSIC_SERVICE)
     }
 
     function loadThemeSettings() {
-        loadThemeSetting(settingsModule.getTheme());
+        loadThemeSetting(settingsUtil.getTheme());
     }
 
     loadPositionSettings();
@@ -137,13 +137,13 @@ function saveAll() {
                 position += hPosition;
             }
         }
-        settingsModule.setWindowPosition(position);
-        settingsModule.setTheme($('button[name=theme].active', SETTINGS_FORM).val());
+        settingsUtil.setWindowPosition(position);
+        settingsUtil.setTheme($('button[name=theme].active', SETTINGS_FORM).val());
     }
     saveWindowPosition();
 
     var musicService = $('button[name=musicService].active', SETTINGS_FORM).val();
-    settingsModule.setMusicService(serviceDictionary[musicService]);
+    settingsUtil.setMusicService(serviceDictionary[musicService]);
 
     closeSettingsWindow()
 }
