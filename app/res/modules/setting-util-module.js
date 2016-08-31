@@ -30,6 +30,10 @@ module.exports = {
         return electronSettings.get(setting.NAME) || getDefault(setting);
     },
 
+    getForUi: function getForUi(settingName) {
+        return electronSettings.get(settingName);
+    },
+
     set: function set(setting, value){
         this.set(setting, value)
     },

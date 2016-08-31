@@ -62,24 +62,38 @@
         </div>
         <hr>
     </div>
-</div>x``
+</div>
 <script>
     var app = angular.module("myApp", []);
     app.controller("myCtrl", function ($scope) {
+        var settingsUtil = require('./res/modules/setting-util-module');
         $scope.allSettings = settingsModule.SETTINGS;
         $scope.change = function (setting, value) {
 
         };
-        $scope.save = function () {
-            for(var setting in allSettings){
+        function deactivateButtons(buttons){
+            buttons.removeClass('active');
+        }
 
+        function updateButtons(optionValue, settingName) {
+            deactivateButtons($('button[type=button][name='+settingName+']'));
+            $($('button[type=button][name="'+settingName+'"][value="'+optionValue+'"]')).addClass('active');
+        }
+        function loadAll() {
+            for(var setting in settingsModule.SETTINGS.PLAYER_SETTINGS.VALUES){
+//                for(var setting in group.VALUES) {
+                    console.log("Loading setting for: " + setting.NAME);
+                    updateButtons(settingsUtil.getForUi(setting.NAME));
+//                }
             }
-        };
+        }
+
         $scope.close = function(){
             setTimeout(function(){
                 ipcRenderer.send('close-settings');
             }, 500);
-        }
+        };
+        loadAll();
     });
 </script>
 
