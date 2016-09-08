@@ -89,6 +89,7 @@
         }
 
         $scope.close = function(){
+            //todo ask user to save?
             setTimeout(function(){
                 ipcRenderer.send('close-settings');
             }, 500);

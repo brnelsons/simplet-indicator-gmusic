@@ -57,6 +57,12 @@ module.exports = {
 
     setupMediaKeyEvents: function setupMediaKeyEvents(mb) {
         // old way mb.window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Right'});
+        mb.window.setAlwaysOnTop(settingsModule.getAlwaysOnTop());
+        mb.window.on('blur', function(){
+            if(settingsModule.getAutoHide()){
+                mb.window.hide();
+            }
+        });
 
         globalShortcut.register(settingsModule.getMediaNextKey(), function () {
             mb.window.webContents.executeJavaScript('document.getElementById("player-bar-forward").click();');

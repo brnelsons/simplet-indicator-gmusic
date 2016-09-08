@@ -75,10 +75,30 @@ module.exports = {
                 ALWAYS_ON_TOP: {
                     ORDER: 0,
                     NAME: 'alwaysOnTop',
-                    DISPLAY_NAME: 'Static Window',
+                    DISPLAY_NAME: 'Always On Top',
                     TYPE: 'BUTTONS',
                     DESC: '',
                     DEFAULT_VAL: 'false',
+                    OPTIONS: {
+                        TRUE: {
+                            NAME: 'true',
+                            VALUE: 'true',
+                            DISPLAY_NAME: 'True'
+                        },
+                        FALSE: {
+                            NAME: 'false',
+                            VALUE: 'false',
+                            DISPLAY_NAME: 'False'
+                        }
+                    }
+                },
+                AUTO_HIDE: {
+                    ORDER: 3,
+                    NAME: 'autoHide',
+                    DISPLAY_NAME: 'Auto Hide Window',
+                    TYPE: 'BUTTONS',
+                    DESC: '',
+                    DEFAULT_VAL: 'true',
                     OPTIONS: {
                         TRUE: {
                             NAME: 'true',

@@ -21,7 +21,7 @@ mb.on('ready', function ready() {
 
     var tray = mb.tray;
     var contextMenu = new Menu();
-    var showHideLabel = "Show" + (settings.getAlwaysOnTop() ? "/Hide" : "");
+    var showHideLabel = "Show" + (!settings.getAutoHide() ? "/Hide ("+settings.getShowHideWindowKey()+")" : "");
     contextMenu.append(new MenuItem({label: showHideLabel, click: clicked}));
     contextMenu.append(new MenuItem({label: "Settings", click: util.showSettings}));
     contextMenu.append(new MenuItem({label: "Quit", click: function () {app.quit();}}));

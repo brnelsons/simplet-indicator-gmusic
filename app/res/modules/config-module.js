@@ -11,14 +11,15 @@ module.exports = {
         return {
             dir: __dirname,
             icon: settingsModule.getTrayIconConfiguration(),
-            height: settingsModule.getWindowHeight(),
-            width: settingsModule.getWindowWidth(),
+            height: parseInt(settingsModule.getWindowHeight()),
+            width: parseInt(settingsModule.getWindowWidth()),
+            'show-on-all-workspaces': false,
             tooltip: 'GMusic',
             transparent: "true",
             'preload-window': "true",
             index: settingsModule.getMusicService(),
             'window-position': settingsModule.getWindowPosition(),
-            'always-on-top': settingsModule.getAlwaysOnTop()
+            'always-on-top': true /*this is to override the menubar default config*/
         }
     }
 };

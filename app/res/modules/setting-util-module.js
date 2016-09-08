@@ -111,12 +111,21 @@ module.exports = {
     },
 
     getAlwaysOnTop: function(){
-        var alwaysOnTop = this.get(WINDOW_SETTINGS.ALWAYS_ON_TOP) ||  this.getDefault();
+        var alwaysOnTop = this.get(WINDOW_SETTINGS.ALWAYS_ON_TOP) ||  this.getDefaultAlwaysOnTop();
         return alwaysOnTop == "true";
     },
 
     setAlwaysOnTop: function(newKey){
         this.set(WINDOW_SETTINGS.ALWAYS_ON_TOP, newKey);
+    },
+
+    getAutoHide: function(){
+        var autoHide = this.get(WINDOW_SETTINGS.AUTO_HIDE) ||  this.getDefaultAutoHide();
+        return autoHide == "true";
+    },
+
+    setAutoHide: function(autoHide){
+        this.set(WINDOW_SETTINGS.AUTO_HIDE, autoHide);
     },
 
     //predefined configs from settings
@@ -131,6 +140,10 @@ module.exports = {
 
     getDefaultAlwaysOnTop: function(){
         return getDefault(WINDOW_SETTINGS.ALWAYS_ON_TOP);
+    },
+
+    getDefaultAutoHide: function(){
+        return getDefault(WINDOW_SETTINGS.AUTO_HIDE);
     },
 
     getDefaultWindowHeight: function(){
