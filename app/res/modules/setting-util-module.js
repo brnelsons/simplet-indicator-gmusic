@@ -34,8 +34,12 @@ module.exports = {
         return electronSettings.get(settingName);
     },
 
+    setFromUi: function setFromUi(settingName, value) {
+        electronSettings.set(settingName, value);
+    },
+
     set: function set(setting, value){
-        this.set(setting, value)
+        electronSettings.set(setting.NAME, value)
     },
 
     getMusicService: function(){

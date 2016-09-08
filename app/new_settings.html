@@ -10,7 +10,6 @@
 <body ng-app="myApp" ng-controller="myCtrl" style="background: #fff;">
 <div class="container">
     <div class="alert alert-warning">
-        <script src="res/js/settings.js"></script>
         <ul>
             <li>Flash is NOT supported by GMusic(indicator).</li>
             <li>Pandora and Spotify currently use Flash.</li>
@@ -21,7 +20,7 @@
 
     <div class="row setting">
         <div class="col-xs-6">
-            <input type="button" class="btn btn-success center-block" value="Save" ng-click="save()"/>
+            <input type="button" class="btn btn-success center-block" value="Save" ng-click="saveAll()"/>
         </div>
         <div class="col-xs-6">
             <input type="button" class="btn btn-warning center-block" value="Cancel" ng-click="close()"/>
@@ -42,7 +41,7 @@
                     <button class="btn btn-default" type="button" name="{{setting.NAME}}"
                             value="{{option.VALUE}}"
                             aria-describedby="{{setting.NAME}}"
-                            ng-repeat="option in setting.OPTIONS">{{option.DISPLAY_NAME}}
+                            ng-repeat="option in setting.OPTIONS" ng-click="buttonClicked(option.VALUE, setting.NAME)">{{option.DISPLAY_NAME}}
                     </button>
                 </span>
                 <!--TEXT-->
@@ -69,45 +68,78 @@
     var app = angular.module("myApp", []);
     app.controller("myCtrl", function ($scope) {
         var settingsUtil = require('./res/modules/setting-util-module');
+        var ipcRenderer = require('electron').ipcRenderer;
         $scope.allSettings = settingsModule.SETTINGS;
-        $scope.change = function (setting, value) {
-
-        };
         function deactivateButtons(buttons) {
             buttons.removeClass('active');
         }
 
+        function close() {
+            //todo ask user to save?
+            setTimeout(function () {
+                ipcRenderer.send('close-settings');
+            }, 500);
+        }
+
         function updateButtons(optionValue, settingName) {
-            console.log("OPT:"+optionValue + ": settingName: " + settingName);
+//            console.log("OPT:"+optionValue + ": settingName: " + settingName);
             deactivateButtons($('button[type=button][name="' + settingName + '"]'));
             $($('button[type=button][name="' + settingName + '"][value="' + optionValue + '"]')).addClass('active');
             $($('input[name="'+settingName+'"]')).val(optionValue);
             $('select[name="'+settingName+'"]>option[value="'+optionValue+'"]').prop('selected', true)
         }
 
+        $scope.buttonClicked = updateButtons;
+
+        function getNewSetting(jsonSettingObject){
+            var type = jsonSettingObject.TYPE;
+//            console.log(jsonSettingObject.NAME + ":" + jsonSettingObject.TYPE);
+            var settingName = jsonSettingObject.NAME;
+            if(type == 'BUTTONS'){
+                return $('button[type=button][name="'+ settingName+'"].active').val()
+            }else if(type == 'DROPDOWN'){
+                return $('select[name="'+settingName+'"]').val()
+            }else if(type == 'TEXT' || type == 'NUMBER'){
+                return $($('input[name="'+settingName+'"]')).val();
+            }else{
+                console.log("Could not find a setting for " + settingName)
+            }
+        }
+
         function loadAll() {
-            var allSettings = settingsModule.SETTINGS;
-            for (var settings in allSettings) {
-                if (allSettings.hasOwnProperty(settings)) {
-                    var settingValues = allSettings[settings].VALUES;
-                    for(var values in settingValues){
-                        if(settingValues.hasOwnProperty(values)) {
-                            var valueName = settingValues[values].NAME;
+            var settingGroups = settingsModule.SETTINGS;
+            for (var groupName in settingGroups) {
+                if (settingGroups.hasOwnProperty(groupName)) {
+                    var groupSettings = settingGroups[groupName].VALUES;
+                    for(var settingName in groupSettings){
+                        if(groupSettings.hasOwnProperty(settingName)) {
+                            var valueName = groupSettings[settingName].NAME;
                             //uncomment this for logging
-//                            console.log(settings+":" +values + ":" + valueName + "=" + settingsUtil.getForUi(valueName));
+//                            console.log(groupName+":" +settingName + ":" + valueName + "=" + settingsUtil.getForUi(valueName));
                             updateButtons(settingsUtil.getForUi(valueName), valueName);
                         }
                     }
                 }
             }
         }
-
-        $scope.close = function () {
-            //todo ask user to save?
-            setTimeout(function () {
-                ipcRenderer.send('close-settings');
-            }, 500);
-        };
+        function saveAll(){
+            var settingGroups = settingsModule.SETTINGS;
+            for (var groupName in settingGroups) {
+                if (settingGroups.hasOwnProperty(groupName)) {
+                    var groupSettings = settingGroups[groupName].VALUES;
+                    for(var settingName in groupSettings){
+                        if(groupSettings.hasOwnProperty(settingName)) {
+                            var groupSetting = groupSettings[settingName];
+                            console.log(settingName + "=" +getNewSetting(groupSetting));
+                            settingsUtil.set(groupSetting, getNewSetting(groupSetting))
+                        }
+                    }
+                }
+            }
+            close();
+        }
+        $scope.saveAll = saveAll;
+        $scope.close = close;
         $(document).ready(function(){
             loadAll();
         })
