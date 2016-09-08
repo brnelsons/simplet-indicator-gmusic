@@ -39,23 +39,25 @@
                 <span class="input-group-addon" id="{{setting.NAME}}">{{setting.DISPLAY_NAME}}</span>
                 <!--buttons-->
                 <span class="input-group-btn" ng-if="setting.TYPE == 'BUTTONS'">
-                    <button class="btn btn-default" type="button" name="{{option.NAME+'ValueB'}}" value="{{option.VALUE}}"
+                    <button class="btn btn-default" type="button" name="{{setting.NAME}}"
+                            value="{{option.VALUE}}"
                             aria-describedby="{{setting.NAME}}"
                             ng-repeat="option in setting.OPTIONS">{{option.DISPLAY_NAME}}
                     </button>
                 </span>
                 <!--TEXT-->
-                <input type="text" class="form-control" style="min-width:200px;" id="{{setting.NAME+'ValueT'}}"
+                <input type="text" class="form-control" style="min-width:200px;" name="{{setting.NAME}}"
                        ng-if="setting.TYPE == 'TEXT'" aria-describedby="{{setting.NAME}}"
                        placeholder="{{setting.DESC}}">
                 <!--NUMBERS-->
-                <input type="number" class="form-control" style="min-width:200px;" id="{{setting.NAME+'ValueN'}}"
+                <input type="number" class="form-control" style="min-width:200px;" name="{{setting.NAME}}"
                        ng-if="setting.TYPE == 'NUMBER'" aria-describedby="{{setting.NAME}}"
                        placeholder="{{setting.DESC}}">
                 <!--DROPDOWN-->
                 <div class="input-group-addon input-group-dropdown" ng-if="setting.TYPE == 'DROPDOWN'">
-                    <select id="{{setting.NAME+'ValueD'}}" title="{{setting.NAME}}" name="{{setting.NAME}}">
-                        <option ng-repeat="option in setting.OPTIONS" value="{{option.VALUE}}">{{option.DISPLAY_NAME}}</option>
+                    <select name="{{setting.NAME}}" title="{{setting.NAME}}">
+                        <option ng-repeat="option in setting.OPTIONS" value="{{option.VALUE}}">{{option.DISPLAY_NAME}}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -71,30 +73,44 @@
         $scope.change = function (setting, value) {
 
         };
-        function deactivateButtons(buttons){
+        function deactivateButtons(buttons) {
             buttons.removeClass('active');
         }
 
         function updateButtons(optionValue, settingName) {
-            deactivateButtons($('button[type=button][name='+settingName+']'));
-            $($('button[type=button][name="'+settingName+'"][value="'+optionValue+'"]')).addClass('active');
+            console.log("OPT:"+optionValue + ": settingName: " + settingName);
+            deactivateButtons($('button[type=button][name="' + settingName + '"]'));
+            $($('button[type=button][name="' + settingName + '"][value="' + optionValue + '"]')).addClass('active');
+            $($('input[name="'+settingName+'"]')).val(optionValue);
+            $('select[name="'+settingName+'"]>option[value="'+optionValue+'"]').prop('selected', true)
         }
+
         function loadAll() {
-            for(var setting in settingsModule.SETTINGS.PLAYER_SETTINGS.VALUES){
-//                for(var setting in group.VALUES) {
-                    console.log("Loading setting for: " + setting.NAME);
-                    updateButtons(settingsUtil.getForUi(setting.NAME));
-//                }
+            var allSettings = settingsModule.SETTINGS;
+            for (var settings in allSettings) {
+                if (allSettings.hasOwnProperty(settings)) {
+                    var settingValues = allSettings[settings].VALUES;
+                    for(var values in settingValues){
+                        if(settingValues.hasOwnProperty(values)) {
+                            var valueName = settingValues[values].NAME;
+                            //uncomment this for logging
+//                            console.log(settings+":" +values + ":" + valueName + "=" + settingsUtil.getForUi(valueName));
+                            updateButtons(settingsUtil.getForUi(valueName), valueName);
+                        }
+                    }
+                }
             }
         }
 
-        $scope.close = function(){
+        $scope.close = function () {
             //todo ask user to save?
-            setTimeout(function(){
+            setTimeout(function () {
                 ipcRenderer.send('close-settings');
             }, 500);
         };
-        loadAll();
+        $(document).ready(function(){
+            loadAll();
+        })
     });
 </script>
 

@@ -215,7 +215,7 @@ module.exports = {
                 },
                 SHOW_NEXT_TRACK: {
                     ORDER: 0,
-                    NAME: 'showMenuPlayPause',
+                    NAME: 'showMenuNextTrack',
                     DISPLAY_NAME: 'Show \'Next\'',
                     TYPE: 'BUTTONS',
                     DESC: '',
@@ -224,7 +224,7 @@ module.exports = {
                 },
                 SHOW_PREVIOUS_TRACK:{
                     ORDER: 0,
-                    NAME: 'showMenuPlayPause',
+                    NAME: 'showMenuPreviousTrack',
                     DISPLAY_NAME: 'Show \'Previous\'',
                     TYPE: 'BUTTONS',
                     DESC: '',
