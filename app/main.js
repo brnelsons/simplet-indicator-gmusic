@@ -23,6 +23,19 @@ mb.on('ready', function ready() {
     var contextMenu = new Menu();
     var showHideLabel = "Show" + (!settings.getAutoHide() ? "/Hide ("+settings.getShowHideWindowKey()+")" : "");
     contextMenu.append(new MenuItem({label: showHideLabel, click: clicked}));
+    if(settings.getShowMenuPlayPause()){
+        contextMenu.append(new MenuItem({type: 'separator'}));
+        contextMenu.append(new MenuItem({label: "Play/Pause", click: util.playPause}));
+    }
+    if(settings.getShowMenuNext()){
+        contextMenu.append(new MenuItem({type: 'separator'}));
+        contextMenu.append(new MenuItem({label: "Next Track", click: util.playNextTrack}));
+    }
+    if(settings.getShowMenuPrevious()){
+        contextMenu.append(new MenuItem({type: 'separator'}));
+        contextMenu.append(new MenuItem({label: "Previous Track", click: util.playPreviousTrack}));
+    }
+    contextMenu.append(new MenuItem({type: 'separator'}));
     contextMenu.append(new MenuItem({label: "Settings", click: util.showSettings}));
     contextMenu.append(new MenuItem({label: "Quit", click: function () {app.quit();}}));
     tray.setContextMenu(contextMenu);

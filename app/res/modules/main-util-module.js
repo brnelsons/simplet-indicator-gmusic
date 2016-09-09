@@ -9,6 +9,7 @@ const path = require('path');
 const settingsModule = require('./setting-util-module.js');
 var settingsWindow;
 var cachedBounds;
+var menuBarRef;
 
 function showWindow(e, bounds, mb) {
     if (e != null && ( e.altKey || e.shiftKey || e.ctrlKey || e.metaKey)) return mb.hideWindow();
@@ -21,6 +22,15 @@ function showWindow(e, bounds, mb) {
     return bool;
 }
 
+function playNextTrack() {
+    menuBarRef.window.webContents.executeJavaScript('document.getElementById("player-bar-forward").click();');
+}
+function playPreviousTrack() {
+    menuBarRef.window.webContents.executeJavaScript('document.getElementById("player-bar-rewind").click();');
+}
+function playPause() {
+    menuBarRef.window.webContents.executeJavaScript('document.getElementById("player-bar-play-pause").click();');
+}
 module.exports = {
     showSettings: function settings() {
         if (settingsWindow == null) {
@@ -55,7 +65,12 @@ module.exports = {
         showWindow(e, bounds, mb);
     },
 
+    playNextTrack: playNextTrack,
+    playPreviousTrack: playPreviousTrack,
+    playPause: playPause,
+
     setupMediaKeyEvents: function setupMediaKeyEvents(mb) {
+        menuBarRef = mb;
         // old way mb.window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Right'});
         mb.window.setAlwaysOnTop(settingsModule.getAlwaysOnTop());
         mb.window.on('blur', function(){
@@ -64,16 +79,18 @@ module.exports = {
             }
         });
 
+
+
         globalShortcut.register(settingsModule.getMediaNextKey(), function () {
-            mb.window.webContents.executeJavaScript('document.getElementById("player-bar-forward").click();');
+            playNextTrack();
         });
 
         globalShortcut.register(settingsModule.getMediaPreviousKey(), function () {
-            mb.window.webContents.executeJavaScript('document.getElementById("player-bar-rewind").click();');
+            playPreviousTrack();
         });
 
         globalShortcut.register(settingsModule.getMediaPlayPauseKey(), function () {
-            mb.window.webContents.executeJavaScript('document.getElementById("player-bar-play-pause").click();');
+            playPause();
         });
 
         //show window

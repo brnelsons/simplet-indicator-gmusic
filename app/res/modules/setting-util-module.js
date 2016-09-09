@@ -7,6 +7,7 @@ var preSettings = require('./settings-module').SETTINGS;
 var PLAYER_SETTINGS = preSettings.PLAYER_SETTINGS.VALUES;
 var WINDOW_SETTINGS = preSettings.WINDOW_SETTINGS.VALUES;
 var HOT_KEY_SETTINGS = preSettings.HOT_KEYS.VALUES;
+var MENU_SETTINGS = preSettings.MENU_SETTINGS.VALUES;
 
 const electronSettings = new ElectronSettings({
     'configDirPath': path.join(__dirname, '../../userdata'),
@@ -80,6 +81,30 @@ module.exports = {
 
     setTheme: function(newTheme){
         this.set(PLAYER_SETTINGS.THEME, newTheme);
+    },
+
+    getShowMenuPlayPause: function(){
+        return this.get(MENU_SETTINGS.SHOW_PLAY_PAUSE)  == "true";
+    },
+
+    setMenuShowPlayPause: function(show){
+        this.set(MENU_SETTINGS.SHOW_PLAY_PAUSE, show);
+    },
+
+    getShowMenuNext: function(){
+        return this.get(MENU_SETTINGS.SHOW_NEXT_TRACK)  == "true";
+    },
+
+    setMenuShowNext: function(show){
+        this.set(MENU_SETTINGS.SHOW_NEXT_TRACK, show);
+    },
+
+    getShowMenuPrevious: function(){
+        return this.get(MENU_SETTINGS.SHOW_PREVIOUS_TRACK)  == "true";
+    },
+
+    setMenuShowPrevious: function(show){
+        this.set(MENU_SETTINGS.SHOW_PREVIOUS_TRACK, show);
     },
 
     getShowHideWindowKey: function(){
