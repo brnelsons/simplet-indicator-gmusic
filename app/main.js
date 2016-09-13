@@ -6,13 +6,12 @@ const ipcMain = require('electron').ipcMain;
 const app = electron.app;
 const Menu = electron.Menu;
 const MenuItem = electron.MenuItem;
-const util = require('./res/modules/main-util-module.js');
-const configs = require('./res/modules/config-module.js');
-const settings = require('./res/modules/setting-util-module.js');
+const util = require('./res/modules/window-util.js');
+const settings = require('./res/modules/settings-util.js');
 
 var menubar = require('menubar');
 
-var mb = menubar(configs.getMenubarConfig());
+var mb = menubar(util.getMenubarConfig());
 
 mb.on('ready', function ready() {
     console.log('app is ready');

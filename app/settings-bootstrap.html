@@ -2,7 +2,7 @@
 <html>
 <script>window.$ = window.jQuery = require('./res/js/jquery.js');</script>
 <script>var angular = require('angular');</script>
-<script>var settingsModule = require('./res/modules/settings-module')</script>
+<script>var settingsModule = require('./res/modules/settings')</script>
 <script src="res/js/bootstrap.js"></script>
 <link href="res/css/bootstrap.css" rel="stylesheet">
 <link href="res/css/style.css" rel="stylesheet">
@@ -67,7 +67,7 @@
 <script>
     var app = angular.module("myApp", []);
     app.controller("myCtrl", function ($scope) {
-        var settingsUtil = require('./res/modules/setting-util-module');
+        var settingsUtil = require('./res/modules/settings-util');
         var ipcRenderer = require('electron').ipcRenderer;
         $scope.allSettings = settingsModule.SETTINGS;
         function deactivateButtons(buttons) {

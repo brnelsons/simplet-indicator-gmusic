@@ -3,7 +3,7 @@
  */
 var ElectronSettings = require('electron-settings');
 var path = require('path');
-var preSettings = require('./settings-module').SETTINGS;
+var preSettings = require('./settings').SETTINGS;
 var PLAYER_SETTINGS = preSettings.PLAYER_SETTINGS.VALUES;
 var WINDOW_SETTINGS = preSettings.WINDOW_SETTINGS.VALUES;
 var HOT_KEY_SETTINGS = preSettings.HOT_KEYS.VALUES;

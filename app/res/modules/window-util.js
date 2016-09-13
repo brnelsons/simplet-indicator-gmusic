@@ -6,7 +6,7 @@ const BrowserWindow = electron.BrowserWindow;
 const Positioner = require('electron-positioner');
 const globalShortcut = electron.globalShortcut;
 const path = require('path');
-const settingsModule = require('./setting-util-module.js');
+const settingsModule = require('./settings-util.js');
 var settingsWindow;
 var cachedBounds;
 var menuBarRef;
@@ -46,7 +46,7 @@ module.exports = {
             var positioner = new Positioner(settingsWindow);
 
             positioner.move('center');
-            settingsWindow.loadURL('file://' + path.join(__dirname, '../../new_settings.html'))
+            settingsWindow.loadURL('file://' + path.join(__dirname, '../../settings-bootstrap.html'))
         }else if (settingsWindow.isVisible()){
             settingsWindow.hide();
         }else{
@@ -97,6 +97,21 @@ module.exports = {
         globalShortcut.register(settingsModule.getShowHideWindowKey(), function () {
             showWindow(null, cachedBounds, mb)
         })
+    },
+    getMenubarConfig: function(){
+        return {
+            dir: __dirname,
+            icon: settingsModule.getTrayIconConfiguration(),
+            height: parseInt(settingsModule.getWindowHeight()),
+            width: parseInt(settingsModule.getWindowWidth()),
+            'show-on-all-workspaces': false,
+            tooltip: 'GMusic',
+            transparent: "true",
+            'preload-window': "true",
+            index: settingsModule.getMusicService(),
+            'window-position': settingsModule.getWindowPosition(),
+            'always-on-top': true /*this is to override the menubar default config*/
+        }
     }
 
 };
