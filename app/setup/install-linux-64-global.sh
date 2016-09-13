@@ -13,6 +13,7 @@ echo "- Creating application directory..."
 sudo mkdir /opt/simplet-indicator-gmusic/
 echo "- Moving files into application directory..."
 sudo cp -rf ../../../* /opt/simplet-indicator-gmusic/
+sudo chmod 777 -R /opt/simplet-indicator-gmusic/
 
 # Create desktop desktop file
 echo "- Creating desktop entry..."

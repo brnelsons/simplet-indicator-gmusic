@@ -1,11 +1,16 @@
 {
   "name": "simplet-indicator-gmusic",
   "productName": "Simplet Indicator GMusic",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Simple Google Music Indicator Applet",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/brnelsons/simplet-indicator-gmusic.git"
+  },
   "dependencies": {
     "electron-positioner": "2.0.3",
     "electron-settings": "1.0.4",
+    "angular": "^1.5.8",
     "menubar": "4.1.0",
     "moment": "*",
     "path": "*"
@@ -21,12 +26,13 @@
     "iconUrl": "https://github.com/brnelsons/simplet-indicator-gmusic/blob/master/res/images/gmusic_dark_desktop.ico"
   },
   "scripts": {
-    "build-linux-32": "electron-packager . GMusic --platform=linux --out='../build' --arch=ia32 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"node_modules/(electron-packager|electron-prebuilt|electron-builder)\" --version-string.FileDescription=\"GMusic\"",
-    "build-linux-64": "electron-packager . GMusic --platform=linux --out='../build' --arch=x64 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"node_modules/(electron-packager|electron-prebuilt|electron-builder)\" --version-string.FileDescription=\"GMusic\"",
-    "build-mac-32": "electron-packager . GMusic --platform=darwin --out='../build' --arch=ia32 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"node_modules/(electron-packager|electron-prebuilt|electron-builder)\" --version-string.FileDescription=\"GMusic\"",
-    "build-mac-64": "electron-packager . GMusic --platform=darwin --out='../build' --arch=x64 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"node_modules/(electron-packager|electron-prebuilt|electron-builder)\" --version-string.FileDescription=\"GMusic\"",
-    "build-windows-32": "electron-packager . GMusic --platform=win32 --out=\"../build\" --arch=ia32 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"node_modules/(electron-packager|electron-prebuilt|electron-builder)\" --version-string.FileDescription=\"GMusic\"",
-    "build-windows-64": "electron-packager . GMusic --platform=win32 --out=\"../build\" --arch=x64 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"node_modules/(electron-packager|electron-prebuilt|electron-builder)\" --version-string.FileDescription=\"GMusic\"",
+    "build-linux-32": "electron-packager . GMusic --platform=linux --out='../build' --arch=ia32 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"userdata\" --version-string.FileDescription=\"GMusic\"",
+    "build-linux-64": "electron-packager . GMusic --platform=linux --out='../build' --arch=x64 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"userdata\" --version-string.FileDescription=\"GMusic\"",
+    "build-mac-32": "electron-packager . GMusic --platform=darwin --out='../build' --arch=ia32 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"userdata\" --version-string.FileDescription=\"GMusic\"",
+    "build-mac-64": "electron-packager . GMusic --platform=darwin --out='../build' --arch=x64 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"userdata\" --version-string.FileDescription=\"GMusic\"",
+    "build-windows-32": "electron-packager . GMusic --platform=win32 --out=\"../build\" --arch=ia32 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"userdata\" --version-string.FileDescription=\"GMusic\"",
+    "build-windows-64": "electron-packager . GMusic --platform=win32 --out=\"../build\" --arch=x64 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"userdata\" --version-string.FileDescription=\"GMusic\"",
+    "build-all": "electron-packager . GMusic --all --out=\"../build\" --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"userdata\" --version-string.FileDescription=\"GMusic\"",
     "start": "electron . --enable-transparent-visuals --disable-gpu  --version-string.FileDescription=GMusic --name=GMusic"
   }
 }

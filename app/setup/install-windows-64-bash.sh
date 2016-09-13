@@ -16,6 +16,7 @@ cp -Rf ../../../* /c/Program\ Files/SimpletIndicator/GMusic
 
 # Create desktop desktop file
 echo "- Creating desktop entry..."
-cp -f GMusic.lnk ~/AppData/Roaming/Microsoft/Windows/Start\ Menu/Programs/SimpletIndicator
+mkdir ~/AppData/Roaming/Microsoft/Windows/Start\ Menu/Programs/SimpletIndicator/
+cp -f GMusic.lnk ~/AppData/Roaming/Microsoft/Windows/Start\ Menu/Programs/SimpletIndicator/
 
 echo "**** Done! ****"
