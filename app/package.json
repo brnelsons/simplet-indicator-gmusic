@@ -35,6 +35,6 @@
     "build-windows-32": "electron-packager . GMusic --platform=win32 --out=\"../build\" --arch=ia32 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"userdata\" --version-string.FileDescription=\"GMusic\"",
     "build-windows-64": "electron-packager . GMusic --platform=win32 --out=\"../build\" --arch=x64 --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"userdata\" --version-string.FileDescription=\"GMusic\"",
     "build-all": "electron-packager . GMusic --all --out=\"../build\" --name=GMusic --version=0.36.0 --icon=Icon.icns --overwrite --ignore=\"userdata\" --version-string.FileDescription=\"GMusic\"",
-    "start": "electron ."
+    "start": "electron . --enable-transparent-visuals --disable-gpu  --version-string.FileDescription=GMusic --name=GMusic"
   }
 }
