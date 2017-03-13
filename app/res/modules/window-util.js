@@ -104,13 +104,13 @@ module.exports = {
             icon: settingsModule.getTrayIconConfiguration(),
             height: parseInt(settingsModule.getWindowHeight()),
             width: parseInt(settingsModule.getWindowWidth()),
-            'show-on-all-workspaces': false,
+            showOnAllWorkspaces: false,
             tooltip: 'GMusic',
             transparent: "true",
             preloadWindow: "true",
             index: settingsModule.getMusicService(),
-            'window-position': settingsModule.getWindowPosition(),
-            'always-on-top': true /*this is to override the menubar default config*/
+            windowPosition: settingsModule.getWindowPosition(),
+            alwaysOnTop: true /*this is to override the menubar default config*/
         }
     }
 
