@@ -107,7 +107,7 @@ module.exports = {
             'show-on-all-workspaces': false,
             tooltip: 'GMusic',
             transparent: "true",
-            'preload-window': "true",
+            preloadWindow: "true",
             index: settingsModule.getMusicService(),
             'window-position': settingsModule.getWindowPosition(),
             'always-on-top': true /*this is to override the menubar default config*/

@@ -1,19 +1,21 @@
 {
   "name": "simplet-indicator-gmusic",
   "productName": "Simplet Indicator GMusic",
-  "version": "2.0.0",
+  "version": "2.0.1",
+  "license": "GPL-3.0",
   "description": "Simple Google Music Indicator Applet",
   "repository" : {
     "type" : "git",
     "url" : "https://github.com/brnelsons/simplet-indicator-gmusic.git"
   },
   "dependencies": {
-    "electron-positioner": "2.0.3",
-    "electron-settings": "1.0.4",
+    "electron-positioner": "^3.0.0",
+    "electron-settings": "^1.0.4",
     "angular": "^1.5.8",
-    "menubar": "4.1.0",
-    "moment": "*",
-    "path": "*"
+    "menubar": "^5.2.3",
+    "screen": "0.2.10",
+    "moment": "^2.17.1",
+    "path": "0.12.7"
   },
   "devDependencies": {
     "electron-packager": "^5.1.0",
