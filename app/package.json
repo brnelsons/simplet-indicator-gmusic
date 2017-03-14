@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "electron-positioner": "3.0.0",
-    "electron-prebuilt": "0.36.0",
+    "electron-prebuilt": "*",
     "electron-settings": "1.0.4",
     "angular": "1.5.8",
     "menubar": "5.2.3",
@@ -19,7 +19,7 @@
     "path": "0.12.7"
   },
   "devDependencies": {
-    "electron-packager": "^5.1.0"
+    "electron-packager": "*"
   },
   "main": "main.js",
   "build": {
