@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Build-windows-32" type="js.build_tools.npm" factoryName="npm" singleton="false">
+    <package-json value="$PROJECT_DIR$/app/package.json" />
+    <command value="run-script" />
+    <scripts>
+      <script value="build-windows-32" />
+    </scripts>
+    <node-interpreter value="project" />
+    <envs />
+    <method />
+  </configuration>
+</component>
