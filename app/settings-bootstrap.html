@@ -63,6 +63,12 @@
         </div>
         <hr>
     </div>
+    <div>
+        <span>Visit: <a href="https://github.com/brnelsons/simplet-indicator-gmusic/wiki" target="_blank">simplet-indicator-gmusic/wiki</a> for help</span>
+    </div>
+    <div>
+        <span>Version: <span id="appVersion">...?</span></span>
+    </div>
 </div>
 <script>
     var app = angular.module("myApp", []);
@@ -70,10 +76,12 @@
         var settingsUtil = require('./res/modules/settings-util');
         var ipcRenderer = require('electron').ipcRenderer;
         $scope.allSettings = settingsModule.SETTINGS;
+        ipcRenderer.on('set-app-version', function(event, appVersion){
+            $('span#appVersion').text('V' + appVersion);
+        });
         function deactivateButtons(buttons) {
             buttons.removeClass('active');
         }
-
         function close() {
             //todo ask user to save?
             setTimeout(function () {
@@ -138,6 +146,7 @@
             }
             close();
         }
+        ipcRenderer.send('get-app-version');
         $scope.saveAll = saveAll;
         $scope.close = close;
         $(document).ready(function(){

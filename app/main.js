@@ -48,3 +48,8 @@ ipcMain.on('close-settings', function() {
     util.closeSettings();
     util.setupMediaKeyEvents(mb);
 });
+
+ipcMain.on('get-app-version', function(event) {
+    console.log(app.getVersion());
+    event.sender.send('set-app-version', app.getVersion());
+});
