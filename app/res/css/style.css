@@ -39,3 +39,7 @@ button.active{
 button{
     outline: none !important;
 }
+
+span#appVersion{
+    font-weight: bold !important;
+}
