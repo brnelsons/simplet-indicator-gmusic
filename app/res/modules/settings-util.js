@@ -14,9 +14,9 @@ const electronSettings = new ElectronSettings({
     'configFileName': 'userSettings'
 });
 
-function getDefault(hotKey){
-    electronSettings.set(hotKey.NAME, hotKey.DEFAULT_VAL);
-    return hotKey.DEFAULT_VAL;
+function getDefault(setting){
+    electronSettings.set(setting.NAME, setting.DEFAULT_VAL);
+    return setting.DEFAULT_VAL;
 }
 
 module.exports = {
@@ -84,7 +84,7 @@ module.exports = {
     },
 
     getShowMenuPlayPause: function(){
-        return this.get(MENU_SETTINGS.SHOW_PLAY_PAUSE)  == "true";
+        return this.get(MENU_SETTINGS.SHOW_PLAY_PAUSE)  === "true";
     },
 
     setMenuShowPlayPause: function(show){
@@ -92,7 +92,7 @@ module.exports = {
     },
 
     getShowMenuNext: function(){
-        return this.get(MENU_SETTINGS.SHOW_NEXT_TRACK)  == "true";
+        return this.get(MENU_SETTINGS.SHOW_NEXT_TRACK)  === "true";
     },
 
     setMenuShowNext: function(show){
@@ -100,7 +100,7 @@ module.exports = {
     },
 
     getShowMenuPrevious: function(){
-        return this.get(MENU_SETTINGS.SHOW_PREVIOUS_TRACK)  == "true";
+        return this.get(MENU_SETTINGS.SHOW_PREVIOUS_TRACK)  === "true";
     },
 
     setMenuShowPrevious: function(show){
@@ -141,7 +141,7 @@ module.exports = {
 
     getAlwaysOnTop: function(){
         var alwaysOnTop = this.get(WINDOW_SETTINGS.ALWAYS_ON_TOP) ||  this.getDefaultAlwaysOnTop();
-        return alwaysOnTop == "true";
+        return alwaysOnTop === "true";
     },
 
     setAlwaysOnTop: function(newKey){
@@ -150,11 +150,20 @@ module.exports = {
 
     getAutoHide: function(){
         var autoHide = this.get(WINDOW_SETTINGS.AUTO_HIDE) ||  this.getDefaultAutoHide();
-        return autoHide == "true";
+        return autoHide === "true";
     },
 
     setAutoHide: function(autoHide){
         this.set(WINDOW_SETTINGS.AUTO_HIDE, autoHide);
+    },
+
+    getShowMenuIcons: function(){
+        var showIcons = this.get(MENU_SETTINGS.SHOW_MENU_ICONS) ||  this.getDefaultShowMenuIcons();
+        return showIcons === "true";
+    },
+
+    setShowMenuIcons: function(showIcons){
+        this.set(MENU_SETTINGS.SHOW_MENU_ICONS, showIcons);
     },
 
     //predefined configs from settings
@@ -173,6 +182,10 @@ module.exports = {
 
     getDefaultAutoHide: function(){
         return getDefault(WINDOW_SETTINGS.AUTO_HIDE);
+    },
+
+    getDefaultShowMenuIcons: function(){
+        return getDefault(WINDOW_SETTINGS.SHOW_MENU_ICONS);
     },
 
     getDefaultWindowHeight: function(){

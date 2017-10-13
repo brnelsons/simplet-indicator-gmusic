@@ -46,7 +46,7 @@
                 </span>
                 <!--TEXT-->
                 <input type="text" class="form-control" style="min-width:200px;" name="{{setting.NAME}}"
-                       ng-if="setting.TYPE == 'TEXT'" aria-describedby="{{setting.NAME}}"
+                       ng-if="setting.TYPE == 'TEXT'" aria-describedby="{{setting.NAME}}" aria-placeholder="{{setting.DEFAULT_VAL}}"
                        placeholder="{{setting.DESC}}">
                 <!--NUMBERS-->
                 <input type="number" class="form-control" style="min-width:200px;" name="{{setting.NAME}}"

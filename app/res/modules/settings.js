@@ -214,7 +214,7 @@ module.exports = {
                     OPTIONS: getBooleanOptions()
                 },
                 SHOW_NEXT_TRACK: {
-                    ORDER: 0,
+                    ORDER: 1,
                     NAME: 'showMenuNextTrack',
                     DISPLAY_NAME: 'Show \'Next\'',
                     TYPE: 'BUTTONS',
@@ -223,9 +223,18 @@ module.exports = {
                     OPTIONS: getBooleanOptions()
                 },
                 SHOW_PREVIOUS_TRACK:{
-                    ORDER: 0,
+                    ORDER: 2,
                     NAME: 'showMenuPreviousTrack',
                     DISPLAY_NAME: 'Show \'Previous\'',
+                    TYPE: 'BUTTONS',
+                    DESC: '',
+                    DEFAULT_VAL: 'false',
+                    OPTIONS: getBooleanOptions()
+                },
+                SHOW_MENU_ICONS:{
+                    ORDER: 3,
+                    NAME: 'showMenuIcons',
+                    DISPLAY_NAME: 'Show Menu Icons',
                     TYPE: 'BUTTONS',
                     DESC: '',
                     DEFAULT_VAL: 'false',
