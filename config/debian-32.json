@@ -1,0 +1,12 @@
+{
+  "src": "dist/build/GMusic-linux-ia32/",
+  "arch": "ia32",
+  "bin":"GMusic",
+  "dest": "dist/installers/",
+  "icon": "src/resources/images/gmusic_dark_desktop.png",
+  "categories": [
+    "AudioVideo",
+    "Audio",
+    "Network"
+  ]
+}

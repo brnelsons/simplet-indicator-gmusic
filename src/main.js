@@ -3,19 +3,20 @@
  */
 const electron = require('electron');
 const ipcMain = require('electron').ipcMain;
+const path = require('path');
 const app = electron.app;
 const Menu = electron.Menu;
 const MenuItem = electron.MenuItem;
-const util = require('./res/modules/window-util.js');
-const settings = require('./res/modules/settings-util.js');
-
-var menubar = require('menubar');
+const util = require('./modules/window-util.js');
+const settings = require('./modules/settings-util.js');
+const menubar = require('menubar');
 
 var mb = menubar(util.getMenubarConfig());
 
 mb.on('ready', function ready() {
     console.log('app is ready');
-
+    const imagePath = path.join(__dirname, "resources/images/");
+    console.log(imagePath);
     util.setupMediaKeyEvents(mb);
 
     var tray = mb.tray;
@@ -26,7 +27,7 @@ mb.on('ready', function ready() {
         contextMenu.append(new MenuItem({type: 'separator'}));
         contextMenu.append(new MenuItem({
                 label: "Play/Pause",
-                icon: (settings.getShowMenuIcons() ? "./res/images/pause_play.png" : null),
+                icon: (settings.getShowMenuIcons() ? imagePath + "pause_play.png" : null),
                 click: util.playPause
         }));
     }
@@ -34,14 +35,14 @@ mb.on('ready', function ready() {
         contextMenu.append(new MenuItem({type: 'separator'}));
         contextMenu.append(new MenuItem({
             label: "Next Track",
-            icon: (settings.getShowMenuIcons() ? "./res/images/next_track.png" : null),
+            icon: (settings.getShowMenuIcons() ? imagePath + "next_track.png" : null),
             click: util.playNextTrack}));
     }
     if(settings.getShowMenuPrevious()){
         contextMenu.append(new MenuItem({type: 'separator'}));
         contextMenu.append(new MenuItem({
             label: "Previous Track",
-            icon: (settings.getShowMenuIcons() ? "./res/images/prev_track.png" : null),
+            icon: (settings.getShowMenuIcons() ? imagePath + "prev_track.png" : null),
             click: util.playPreviousTrack}));
     }
     contextMenu.append(new MenuItem({type: 'separator'}));

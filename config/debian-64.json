@@ -1,0 +1,12 @@
+{
+  "src": "dist/build/GMusic-linux-x64/",
+  "arch": "amd64",
+  "bin":"GMusic",
+  "dest": "dist/installers/",
+  "icon": "src/resources/images/gmusic_dark_desktop.png",
+  "categories": [
+    "AudioVideo",
+    "Audio",
+    "Network"
+  ]
+}

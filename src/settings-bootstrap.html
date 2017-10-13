@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-<script>window.$ = window.jQuery = require('./res/js/jquery.js');</script>
+<script>window.$ = window.jQuery = require('./resources/js/jquery.js');</script>
 <script>var angular = require('angular');</script>
-<script>var settingsModule = require('./res/modules/settings')</script>
-<script src="res/js/bootstrap.js"></script>
-<link href="res/css/bootstrap.css" rel="stylesheet">
-<link href="res/css/style.css" rel="stylesheet">
+<script>var settingsModule = require('./modules/settings')</script>
+<script src="resources/js/bootstrap.js"></script>
+<link href="resources/css/bootstrap.css" rel="stylesheet">
+<link href="resources/css/style.css" rel="stylesheet">
 
 <body ng-app="myApp" ng-controller="myCtrl" style="background: #fff;">
 <div class="container">
@@ -73,7 +73,7 @@
 <script>
     var app = angular.module("myApp", []);
     app.controller("myCtrl", function ($scope) {
-        var settingsUtil = require('./res/modules/settings-util');
+        var settingsUtil = require('./modules/settings-util');
         var ipcRenderer = require('electron').ipcRenderer;
         $scope.allSettings = settingsModule.SETTINGS;
         ipcRenderer.on('set-app-version', function(event, appVersion){

@@ -46,7 +46,7 @@ module.exports = {
             var positioner = new Positioner(settingsWindow);
 
             positioner.move('center');
-            settingsWindow.loadURL('file://' + path.join(__dirname, '../../settings-bootstrap.html'))
+            settingsWindow.loadURL('file://' + path.join(__dirname, '../settings-bootstrap.html'))
         }else if (settingsWindow.isVisible()){
             settingsWindow.hide();
         }else{
