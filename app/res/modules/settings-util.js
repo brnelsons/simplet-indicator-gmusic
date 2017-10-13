@@ -185,7 +185,7 @@ module.exports = {
     },
 
     getDefaultShowMenuIcons: function(){
-        return getDefault(WINDOW_SETTINGS.SHOW_MENU_ICONS);
+        return getDefault(MENU_SETTINGS.SHOW_MENU_ICONS);
     },
 
     getDefaultWindowHeight: function(){
