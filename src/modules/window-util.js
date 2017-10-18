@@ -7,6 +7,7 @@ const Positioner = require('electron-positioner');
 const globalShortcut = electron.globalShortcut;
 const path = require('path');
 const settingsModule = require('./settings-util.js');
+const musicServices = require('./settings.js').SETTINGS.PLAYER_SETTINGS.VALUES.MUSIC_SERVICE.OPTIONS;
 var settingsWindow;
 var cachedBounds;
 var menuBarRef;
@@ -22,21 +23,24 @@ function showWindow(e, bounds, mb) {
     return bool;
 }
 
-function playNextTrack() {
-    menuBarRef.window.webContents.executeJavaScript('document.getElementById("player-bar-forward").click();');
+function playNextTrack(musicService) {
+    // menuBarRef.window.webContents.executeJavaScript('document.getElementById("player-bar-forward").click();');
+    menuBarRef.window.webContents.executeJavaScript(musicService.JS_NEXT);
 }
-function playPreviousTrack() {
-    menuBarRef.window.webContents.executeJavaScript('document.getElementById("player-bar-rewind").click();');
+function playPreviousTrack(musicService) {
+    // menuBarRef.window.webContents.executeJavaScript('document.getElementById("player-bar-rewind").click();');
+    menuBarRef.window.webContents.executeJavaScript(musicService.JS_PREV);
 }
-function playPause() {
-    menuBarRef.window.webContents.executeJavaScript('document.getElementById("player-bar-play-pause").click();');
+function playPause(musicService) {
+    // menuBarRef.window.webContents.executeJavaScript('document.getElementById("player-bar-play-pause").click();');
+    menuBarRef.window.webContents.executeJavaScript(musicService.JS_PLAY_PAUSE);
 }
 module.exports = {
     showSettings: function settings() {
         if (settingsWindow == null) {
             var options = {
                 height: 600,
-                width: 440,
+                width: 480,
                 frame: false,
                 darkTheme: true,
                 transparent: true,
@@ -79,18 +83,27 @@ module.exports = {
             }
         });
 
-
+        const musicServiceUrl = settingsModule.getMusicService();
+        var musicServiceFound;
+        for(var musicService in musicServices){
+            if(musicServices.hasOwnProperty(musicService)){
+                var service = musicServices[musicService];
+                if(service['VALUE'] === musicServiceUrl){
+                    musicServiceFound = service;
+                }
+            }
+        }
 
         globalShortcut.register(settingsModule.getMediaNextKey(), function () {
-            playNextTrack();
+            playNextTrack(musicServiceFound);
         });
 
         globalShortcut.register(settingsModule.getMediaPreviousKey(), function () {
-            playPreviousTrack();
+            playPreviousTrack(musicServiceFound);
         });
 
         globalShortcut.register(settingsModule.getMediaPlayPauseKey(), function () {
-            playPause();
+            playPause(musicServiceFound);
         });
 
         //show window

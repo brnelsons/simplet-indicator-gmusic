@@ -23,7 +23,7 @@ module.exports = {
                 MUSIC_SERVICE: {
                     ORDER: 0,
                     NAME: 'musicService',
-                    TYPE: 'BUTTONS',
+                    TYPE: 'DROPDOWN',
                     DESC: '',
                     DISPLAY_NAME: 'Music Service',
                     DEFAULT_VAL: 'https://play.google.com/music/listen#/now',
@@ -31,17 +31,34 @@ module.exports = {
                         GMUSIC: {
                             NAME: 'gmusic',
                             VALUE: 'https://play.google.com/music/listen#/now',
-                            DISPLAY_NAME: 'Google Music'
+                            DISPLAY_NAME: 'Google Music',
+                            JS_PLAY_PAUSE: 'document.getElementById("player-bar-play-pause").click();',
+                            JS_NEXT: 'document.getElementById("player-bar-forward").click();',
+                            JS_PREV: 'document.getElementById("player-bar-rewind").click();'
                         },
                         PANDORA: {
                             NAME: 'pandora',
                             VALUE: 'https://www.pandora.com',
-                            DISPLAY_NAME: 'Pandora'
+                            DISPLAY_NAME: 'Pandora',
+                            JS_PLAY_PAUSE: 'document.getElementsByClassName("PlayButton")[0].click();',
+                            JS_NEXT: 'document.getElementsByClassName("SkipButton")[0].click();',
+                            JS_PREV: 'document.getElementsByClassName("ReplayButton")[0].click();'
                         },
                         SPOTIFY: {
                             NAME: 'spotify',
                             VALUE: 'https://play.spotify.com/browse',
-                            DISPLAY_NAME: 'Spotify'
+                            DISPLAY_NAME: 'Spotify',
+                            JS_PLAY_PAUSE: 'var button = $("button[title=\'Pause\']"); button != null ? button.click() : $("button[title=\'Play\']").click();',
+                            JS_NEXT: '$("button[title=\'Next\']").click()',
+                            JS_PREV: '$("button[title=\'Previous\']").click()'
+                        },
+                        SOUNDCLOUD: {
+                            NAME: 'soundcloud',
+                            VALUE: 'https://soundcloud.com/stream',
+                            DISPLAY_NAME: 'SoundCloud',
+                            JS_PLAY_PAUSE: 'document.getElementsByClassName("playControls__play")[0].click();',
+                            JS_NEXT: 'document.getElementsByClassName("playControls__next")[0].click();',
+                            JS_PREV: 'document.getElementsByClassName("playControls__prev")[0].click();'
                         }
                     }
                 },
