@@ -20,7 +20,8 @@
   "devDependencies": {
     "electron": "^1.4.12",
     "electron-packager": "*",
-    "electron-installer-debian": "*"
+    "electron-installer-debian": "*",
+    "electron-winstaller": "*"
   },
   "main": "src/main.js",
   "build": {
