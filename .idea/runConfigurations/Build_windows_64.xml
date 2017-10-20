@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Build-windows-64" type="js.build_tools.npm" factoryName="npm" singleton="false">
     <package-json value="$PROJECT_DIR$/package.json" />
-    <command value="run" />
+    <command value="run-script" />
     <scripts>
       <script value="build-windows-64" />
     </scripts>

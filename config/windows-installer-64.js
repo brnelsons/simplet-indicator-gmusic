@@ -2,7 +2,6 @@ const createWindowsInstaller = require('electron-winstaller').createWindowsInsta
 const path = require('path');
 
 getInstallerConfig()
-    .set("wine")
     .then(createWindowsInstaller)
     .catch(function (error) {
         console.error(error.message || error);
@@ -19,8 +18,8 @@ function getInstallerConfig() {
         appDirectory: path.join(buildPath, 'GMusic-win32-x64'),
         authors: 'Brian Nelson',
         noMsi: true,
-        outputDirectory: path.join(outPath, 'windows-installer'),
-        exe: 'simplet-indicator-gmusic.exe',
+        outputDirectory: path.join(outPath, 'windows-installer-64'),
+        exe: 'GMusic.exe',
         setupExe: 'InstallGmusic64.exe',
         setupIcon: path.join(rootPath, 'src', 'resources', 'images', 'gmusic_dark_desktop.ico')
     })
