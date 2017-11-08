@@ -2,13 +2,15 @@
  * Created by bnelson on 3/9/16.
  */
 const electron = require('electron');
-const ipcMain = require('electron').ipcMain;
+const serverEvents = require('electron').ipcMain;
 const path = require('path');
 const app = electron.app;
 const Menu = electron.Menu;
 const MenuItem = electron.MenuItem;
 const util = require('./modules/window-util.js');
-const settings = require('./modules/settings-util.js');
+const appDataBasePath = app.getPath("appData");
+const settings = require('./modules/settings-util.js')(appDataBasePath);
+console.log("Storing user settings at " + appDataBasePath);
 const menubar = require('menubar');
 
 var mb = menubar(util.getMenubarConfig());
@@ -55,12 +57,17 @@ function clicked(e, bounds) {
     util.showWindow(e, bounds, mb)
 }
 
-ipcMain.on('close-settings', function() {
+serverEvents.on('closeSettings', function() {
     util.closeSettings();
     util.setupMediaKeyEvents(mb);
 });
 
-ipcMain.on('get-app-version', function(event) {
+serverEvents.on('getAppVersion', function(event) {
     console.log(app.getVersion());
-    event.sender.send('set-app-version', app.getVersion());
+    event.sender.send('setAppVersion', app.getVersion());
+});
+
+serverEvents.on('getAppDataPath', function(event) {
+    console.log(appDataBasePath);
+    event.sender.send('setAppDataPath', appDataBasePath);
 });
