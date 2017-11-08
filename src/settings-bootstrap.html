@@ -73,22 +73,9 @@
 <script>
     var app = angular.module("myApp", []);
     app.controller("myCtrl", function ($scope) {
-        var settingsUtil = require('./modules/settings-util');
-        var ipcRenderer = require('electron').ipcRenderer;
+        var electron = require('electron');
+        var clientEventBus = electron.ipcRenderer;
         $scope.allSettings = settingsModule.SETTINGS;
-        ipcRenderer.on('set-app-version', function(event, appVersion){
-            $('span#appVersion').text('V' + appVersion);
-        });
-        function deactivateButtons(buttons) {
-            buttons.removeClass('active');
-        }
-        function close() {
-            //todo ask user to save?
-            setTimeout(function () {
-                ipcRenderer.send('close-settings');
-            }, 500);
-        }
-
         function updateButtons(optionValue, settingName) {
 //            console.log("OPT:"+optionValue + ": settingName: " + settingName);
             deactivateButtons($('button[type=button][name="' + settingName + '"]'));
@@ -99,19 +86,31 @@
 
         $scope.buttonClicked = updateButtons;
 
+        function deactivateButtons(buttons) {
+            buttons.removeClass('active');
+        }
+
+        var settingUtil;
+
         function getNewSetting(jsonSettingObject){
             var type = jsonSettingObject.TYPE;
 //            console.log(jsonSettingObject.NAME + ":" + jsonSettingObject.TYPE);
             var settingName = jsonSettingObject.NAME;
-            if(type == 'BUTTONS'){
+            if(type === 'BUTTONS'){
                 return $('button[type=button][name="'+ settingName+'"].active').val()
-            }else if(type == 'DROPDOWN'){
+            }else if(type === 'DROPDOWN'){
                 return $('select[name="'+settingName+'"]').val()
-            }else if(type == 'TEXT' || type == 'NUMBER'){
+            }else if(type === 'TEXT' || type === 'NUMBER'){
                 return $($('input[name="'+settingName+'"]')).val();
             }else{
                 console.log("Could not find a setting for " + settingName)
             }
+        }
+
+        function close() {
+            setTimeout(function () {
+                clientEventBus.send('closeSettings');
+            }, 500);
         }
 
         function loadAll() {
@@ -122,9 +121,7 @@
                     for(var settingName in groupSettings){
                         if(groupSettings.hasOwnProperty(settingName)) {
                             var valueName = groupSettings[settingName].NAME;
-                            //uncomment this for logging
-//                            console.log(groupName+":" +settingName + ":" + valueName + "=" + settingsUtil.getForUi(valueName));
-                            updateButtons(settingsUtil.getForUi(valueName), valueName);
+                            updateButtons(settingUtil.getForUi(valueName), valueName);
                         }
                     }
                 }
@@ -139,19 +136,30 @@
                         if(groupSettings.hasOwnProperty(settingName)) {
                             var groupSetting = groupSettings[settingName];
                             console.log(settingName + "=" +getNewSetting(groupSetting));
-                            settingsUtil.set(groupSetting, getNewSetting(groupSetting))
+                            settingUtil.set(groupSetting, getNewSetting(groupSetting))
                         }
                     }
                 }
             }
             close();
         }
-        ipcRenderer.send('get-app-version');
         $scope.saveAll = saveAll;
         $scope.close = close;
-        $(document).ready(function(){
+
+        clientEventBus.on("setAppDataPath", function (event, appDataPath) {
+            settingUtil = require('./modules/settings-util')(appDataPath);
+//            $(document).ready(function(){
+//                loadAll();
+//            });
             loadAll();
-        })
+        });
+        clientEventBus.send("getAppDataPath");
+
+        clientEventBus.on('setAppVersion', function(event, appVersion){
+            $('span#appVersion').text('V' + appVersion);
+        });
+        clientEventBus.send('getAppVersion');
+
     });
 </script>
 

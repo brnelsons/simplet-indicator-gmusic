@@ -6,7 +6,7 @@ const BrowserWindow = electron.BrowserWindow;
 const Positioner = require('electron-positioner');
 const globalShortcut = electron.globalShortcut;
 const path = require('path');
-const settingsModule = require('./settings-util.js');
+const settingsModule = require('./settings-util.js')(electron.app.getPath("appData"));
 const musicServices = require('./settings.js').SETTINGS.PLAYER_SETTINGS.VALUES.MUSIC_SERVICE.OPTIONS;
 var settingsWindow;
 var cachedBounds;
