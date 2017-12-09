@@ -51,9 +51,9 @@ module.exports = {
 
             positioner.move('center');
             settingsWindow.loadURL('file://' + path.join(__dirname, '../settings-bootstrap.html'))
-        }else if (settingsWindow.isVisible()){
+        } else if (settingsWindow.isVisible()) {
             settingsWindow.hide();
-        }else{
+        } else {
             settingsWindow.show();
         }
     },
@@ -77,18 +77,18 @@ module.exports = {
         menuBarRef = mb;
         // old way mb.window.webContents.sendInputEvent({type: 'keydown', keyCode: 'Right'});
         mb.window.setAlwaysOnTop(settingsModule.getAlwaysOnTop());
-        mb.window.on('blur', function(){
-            if(settingsModule.getAutoHide()){
+        mb.window.on('blur', function () {
+            if (settingsModule.getAutoHide()) {
                 mb.window.hide();
             }
         });
 
         const musicServiceUrl = settingsModule.getMusicService();
         var musicServiceFound;
-        for(var musicService in musicServices){
-            if(musicServices.hasOwnProperty(musicService)){
+        for (var musicService in musicServices) {
+            if (musicServices.hasOwnProperty(musicService)) {
                 var service = musicServices[musicService];
-                if(service['VALUE'] === musicServiceUrl){
+                if (service['VALUE'] === musicServiceUrl) {
                     musicServiceFound = service;
                 }
             }
@@ -111,7 +111,7 @@ module.exports = {
             showWindow(null, cachedBounds, mb)
         })
     },
-    getMenubarConfig: function(){
+    getMenubarConfig: function () {
         return {
             dir: __dirname,
             icon: settingsModule.getTrayIconConfiguration(),

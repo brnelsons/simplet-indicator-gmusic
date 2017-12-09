@@ -13,6 +13,15 @@ const menubar = require('menubar');
 
 var mb = menubar(util.getMenubarConfig());
 
+app.on('ready', function(){
+    //ensure only a single instance of this exists
+    var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {});
+
+    if (shouldQuit) {
+        app.quit();
+    }
+});
+
 mb.on('ready', function ready() {
     console.log('app is ready');
     const imagePath = path.join(__dirname, "resources/images/");
@@ -47,7 +56,10 @@ mb.on('ready', function ready() {
     }
     contextMenu.append(new MenuItem({type: 'separator'}));
     contextMenu.append(new MenuItem({label: "Settings", click: util.showSettings}));
-    contextMenu.append(new MenuItem({label: "Quit", click: function () {app.quit();}}));
+    contextMenu.append(new MenuItem({label: "Quit", click: function () {
+        mb.window.destroy();
+        app.quit();
+    }}));
     tray.setContextMenu(contextMenu);
 });
 
